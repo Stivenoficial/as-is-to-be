@@ -1,0 +1,210 @@
+
+    <!DOCTYPE html>
+    <html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <title>Diagrama de Procesos - Estilo Profesional</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+        <style>
+            :root {
+                --blue: #3498db;
+                --green: #2ecc71;
+                --orange: #e67e22;
+                --pink: #e91e63;
+                --yellow: #f1c40f;
+                --dark: #2c3e50;
+                --border: #333;
+                --grid: #e5e5e5;
+            }
+
+            body {
+                font-family: 'Inter', sans-serif;
+                background-color: #f0f0f0;
+                margin: 0;
+                padding: 40px;
+                display: flex;
+                justify-content: center;
+            }
+
+            .canvas {
+                background-color: white;
+                background-image: 
+                    linear-gradient(var(--grid) 1px, transparent 1px),
+                    linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+                background-size: 20px 20px;
+                border: 2px solid var(--border);
+                border-radius: 8px;
+                display: flex;
+                position: relative;
+                min-width: 1100px;
+                box-shadow: 0 20px 50px rgba(0,0,0,0.1);
+            }
+
+            /* Left Main Label */
+            .main-label {
+                writing-mode: vertical-rl;
+                transform: rotate(180deg);
+                background: #fff;
+                padding: 20px;
+                font-weight: 800;
+                text-align: center;
+                border-right: 2px solid var(--border);
+                font-size: 1.2rem;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            /* Lanes Container */
+            .lanes {
+                flex-grow: 1;
+                display: flex;
+                flex-direction: column;
+            }
+
+            .lane {
+                display: flex;
+                min-height: 150px;
+                border-bottom: 2px solid var(--border);
+                position: relative;
+            }
+
+            .lane:last-child {
+                border-bottom: none;
+            }
+
+            /* Lane Header (Actor Name) */
+            .lane-header {
+                width: 150px;
+                padding: 10px;
+                border-right: 2px solid var(--border);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                text-align: center;
+                font-weight: 600;
+                font-size: 0.9rem;
+                background: #fdfdfd;
+            }
+
+            /* Lane Content (Nodes Area) */
+            .lane-content {
+                flex-grow: 1;
+                position: relative;
+                padding: 20px;
+                display: flex;
+                align-items: center;
+                gap: 50px;
+            }
+
+            /* Nodes Style */
+            .node {
+                min-width: 140px;
+                padding: 15px;
+                border-radius: 12px;
+                border: 2px solid var(--border);
+                text-align: center;
+                font-weight: 600;
+                font-size: 0.85rem;
+                color: white;
+                box-shadow: 4px 4px 0px rgba(0,0,0,0.1);
+                position: relative;
+                z-index: 2;
+            }
+
+            .node-start { background-color: var(--pink); border-radius: 50%; min-width: 40px; width: 40px; height: 40px; padding: 0; }
+            .node-blue { background-color: var(--blue); }
+            .node-green { background-color: var(--green); }
+            .node-orange { background-color: var(--orange); }
+            
+            /* Decision Diamond */
+            .diamond {
+                width: 60px;
+                height: 60px;
+                background-color: var(--yellow);
+                border: 2px solid var(--border);
+                transform: rotate(45deg);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                position: relative;
+                box-shadow: 4px 4px 0px rgba(0,0,0,0.1);
+            }
+
+            .diamond span {
+                transform: rotate(-45deg);
+                font-weight: 700;
+                font-size: 0.7rem;
+                text-align: center;
+                display: block;
+            }
+
+            /* Connection Lines (Pseudo-elements) */
+            .node::after {
+                content: "→";
+                position: absolute;
+                right: -35px;
+                top: 50%;
+                transform: translateY(-50%);
+                color: var(--border);
+                font-size: 1.5rem;
+                font-weight: bold;
+            }
+
+            .node-last::after { content: none; }
+
+            .label-top {
+                position: absolute;
+                top: -25px;
+                left: 50%;
+                transform: translateX(-50%);
+                font-size: 0.7rem;
+                font-weight: bold;
+                color: #555;
+            }
+
+        </style>
+    </head>
+    <body>
+        <div class="canvas">
+            <div class="main-label">GESTIÓN DE FACTURACIÓN</div>
+            
+            <div class="lanes">
+                <!-- Lane 1: Operador de Ventas -->
+                <div class="lane">
+                    <div class="lane-header">Operador de Ventas</div>
+                    <div class="lane-content">
+                        <div class="node node-start"></div>
+                        <div class="node node-blue">Filtrar No Procesados</div>
+                        <div class="node node-blue">Copiar y Buscar en CRM</div>
+                        <div class="node node-blue">Crear Factura y Oportunidad</div>
+                    </div>
+                </div>
+
+                <!-- Lane 2: vTiger CRM -->
+                <div class="lane">
+                    <div class="lane-header">vTiger CRM / BPMS</div>
+                    <div class="lane-content">
+                        <div style="margin-left: 450px;" class="diamond">
+                            <span>¿Pago Válido?</span>
+                            <div class="label-top">SÍ</div>
+                        </div>
+                        <div class="node node-green">Auto-Crear Registro</div>
+                        <div class="node node-green node-last">Enviar Comprobante</div>
+                    </div>
+                </div>
+
+                <!-- Lane 3: Excepciones -->
+                <div class="lane">
+                    <div class="lane-header">Excepciones</div>
+                    <div class="lane-content">
+                        <div style="margin-left: 450px;" class="node node-orange node-last">Revisión Manual de Inconsistencia</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+    </html>
+    
