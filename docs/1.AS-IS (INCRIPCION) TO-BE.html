@@ -1,51 +1,656 @@
+<!DOCTYPE html>
+<html lang="es">
 
-    <!DOCTYPE html>
-    <html lang="es">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>1.AS-IS (INCRIPCION) TO-BE</title>
-        
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>1.AS-IS (INCRIPCION) TO-BE</title>
+
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
-        
-        body { font-family: 'Inter', sans-serif; margin: 0; padding: 0; display: flex; height: 100vh; background-color: #f8f9fa; color: #333; }
-        .sidebar { width: 280px; background-color: #2c3e50; color: white; padding: 20px 0; overflow-y: auto; flex-shrink: 0; }
-        .sidebar h2 { text-align: center; font-size: 1.2rem; margin-bottom: 20px; }
-        .sidebar ul { list-style: none; padding: 0; margin: 0; }
-        .sidebar li a { display: block; color: #bdc3c7; text-decoration: none; padding: 12px 25px; font-size: 0.95rem; transition: 0.3s; }
-        .sidebar li a:hover { background-color: #34495e; color: white; border-left: 4px solid #27ae60; }
-        .content { flex-grow: 1; padding: 50px; overflow-y: auto; background-color: white; }
-        .document-container { max-width: 900px; margin: 0 auto; line-height: 1.6; }
-        h1, h2, h3 { color: #2c3e50; }
-        table { width: 100%; border-collapse: collapse; margin: 20px 0; }
-        th, td { border: 1px solid #ddd; padding: 10px; text-align: left; }
-        th { background-color: #f4f7f6; }
-        
+
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            height: 100vh;
+            background-color: #f8f9fa;
+            color: #333;
+        }
+
+        .sidebar {
+            width: 280px;
+            background-color: #2c3e50;
+            color: white;
+            padding: 20px 0;
+            overflow-y: auto;
+            flex-shrink: 0;
+        }
+
+        .sidebar h2 {
+            text-align: center;
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+        }
+
+        .sidebar ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .sidebar li a { 
+            display: block;
+            color: #bdc3c7;
+            text-decoration: none;
+            padding: 12px 25px;
+            font-size: 0.95rem;
+            transition: 0.3s;
+        }
+
+        .sidebar li a:hover {
+            background-color: #34495e;
+            color: white;
+            border-left: 4px solid #27ae60;
+        }
+
+        .content {
+            flex-grow: 1;
+            padding: 50px;
+            overflow-y: auto;
+            background-color: white;
+        }
+
+        .document-container {
+            max-width: 900px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        h1,
+        h2,
+        h3 {
+            color: #2c3e50;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        th,
+        td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f4f7f6;
+        }
+
         /* --- ESTILOS MEJORADOS PARA IMÁGENES --- */
         img {
-            max-width: 100%; /* Nunca se saldrá de la pantalla */
+            max-width: 100%;
+            /* Nunca se saldrá de la pantalla */
             height: auto;
             border-radius: 6px;
             margin: 20px 0;
-            box-shadow: 0px 4px 10px rgba(0,0,0,0.15); /* Sombreado elegante */
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.15);
+            /* Sombreado elegante */
             display: block;
         }
     </style>
-    
-    </head>
-    <body>
-        <div class="sidebar">
-            <h2>📚 MIS MANUALES</h2>
-            <ul><li><a href="index.html">🏠 Inicio</a></li><li><a href="1.AS-IS%20(INCRIPCION)%20TO-BE.html">📄 1.AS-IS (INCRIPCION) TO-BE</a></li>
-<li><a href="2.AS-IS%20%20(ARANCEL)%20%20TO-BE.html">📄 2.AS-IS  (ARANCEL)  TO-BE</a></li>
-<li><a href="3.AS-IS%20(FACTURAS%20POR%20PROMOCIONES)%20TO-BE.html">📄 3.AS-IS (FACTURAS POR PROMOCIONES) TO-BE</a></li>
-<li><a href="4.AS-IS%20(REGISTRO%20DE%20PAGOS)%20TO-BE.html">📄 4.AS-IS (REGISTRO DE PAGOS) TO-BE</a></li>
-<li><a href="AS-IS%20(FACTURA%20TRAMITE%20ADMINISTRATIVO)%20TO-BE.html">📄 AS-IS (FACTURA TRAMITE ADMINISTRATIVO) TO-BE</a></li>
-<li><a href="AS-IS%20(PROCESAMIENTO%20DE%20CUOTA)%20TO-BE.html">📄 AS-IS (PROCESAMIENTO DE CUOTA) TO-BE</a></li>
-</ul>
+
+</head>
+
+<body>
+    <div class="sidebar">
+        <h2>📚 MIS MANUALES</h2>
+        <ul>
+            <li><a href="index.html">🏠 Inicio</a></li>
+            <li><a href="1.AS-IS%20(INCRIPCION)%20TO-BE.html">📄 1.AS-IS (INCRIPCION) TO-BE</a></li>
+            <li><a href="2.AS-IS%20%20(ARANCEL)%20%20TO-BE.html">📄 2.AS-IS (ARANCEL) TO-BE</a></li>
+            <li><a href="3.AS-IS%20(FACTURAS%20POR%20PROMOCIONES)%20TO-BE.html">📄 3.AS-IS (FACTURAS POR PROMOCIONES)
+                    TO-BE</a></li>
+            <li><a href="4.AS-IS%20(REGISTRO%20DE%20PAGOS)%20TO-BE.html">📄 4.AS-IS (REGISTRO DE PAGOS) TO-BE</a></li>
+            <li><a href="AS-IS%20(FACTURA%20TRAMITE%20ADMINISTRATIVO)%20TO-BE.html">📄 AS-IS (FACTURA TRAMITE
+                    ADMINISTRATIVO) TO-BE</a></li>
+            <li><a href="AS-IS%20(PROCESAMIENTO%20DE%20CUOTA)%20TO-BE.html">📄 AS-IS (PROCESAMIENTO DE CUOTA) TO-BE</a>
+            </li>
+        </ul>
+    </div>
+    <div class="content">
+        <div class="document-container">
+            <h1>1.AS-IS (INCRIPCION) TO-BE</h1>
+            <p><strong>1. Identificación y Alcance del Proceso</strong></p>
+            <p>Esta sección establece el contexto general y los límites del proceso de negocio en su estado actual.</p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>
+                            <p><strong>Campo</strong></p>
+                        </th>
+                        <th>
+                            <p><strong>Descripción</strong></p>
+                        </th>
+                        <th>
+                            <p><strong>Contenido</strong></p>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <p><strong>Nombre del Proceso</strong></p>
+                        </td>
+                        <td>
+                            <p>Gestión y Creación de Facturas por Inscripción (Nuevos Ingresos) </p>
+                        </td>
+                        <td>
+                            <p>Proceso operativo de facturación comercial. </p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <p><strong>Objetivo del Proceso</strong></p>
+                        </td>
+                        <td>
+                            <p>¿Para qué existe este proceso?</p>
+                        </td>
+                        <td>
+                            <p>Generar correctamente la factura comercial en el CRM para estudiantes de nuevo ingreso.
+                            </p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <p><strong>Punto de Inicio</strong></p>
+                        </td>
+                        <td>
+                            <p>¿Qué evento desencadena el proceso?</p>
+                        </td>
+                        <td>
+                            <p>Identificación de un registro &quot;No Procesado&quot; en el módulo <em>Payment
+                                    Record</em>. </p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <p><strong>Punto de Fin</strong></p>
+                        </td>
+                        <td>
+                            <p>¿Cuál es el resultado final?</p>
+                        </td>
+                        <td>
+                            <p>Factura guardada en el sistema con ítems y montos validados. </p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <p><strong>Documento Fuente</strong></p>
+                        </td>
+                        <td>
+                            <p>Documento analizado.</p>
+                        </td>
+                        <td>
+                            <p>MANUAL 1: Gestión y Creación de Facturas por Inscripción. </p>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <p><strong>2. Actores Involucrados (Pools y Carriles / Lanes)</strong></p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>
+                            <p><strong>Actor (Lane)</strong></p>
+                        </th>
+                        <th>
+                            <p><strong>Rol en el Proceso</strong></p>
+                        </th>
+                        <th>
+                            <p><strong>Responsabilidades Clave</strong></p>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <p><strong>Operador de Ventas</strong></p>
+                        </td>
+                        <td>
+                            <p>Ejecutor</p>
+                        </td>
+                        <td>
+                            <p>Revisar soportes, buscar contactos y registrar datos financieros. </p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <p><strong>vTiger CRM</strong></p>
+                        </td>
+                        <td>
+                            <p>Sistema / Plataforma</p>
+                        </td>
+                        <td>
+                            <p>Almacenar registros, vincular oportunidades y procesar facturas. </p>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <p><strong>3. Detalle de Actividades y Flujo AS-IS (Secuencia Lógica)</strong></p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>
+                            <p><strong>No.</strong></p>
+                        </th>
+                        <th>
+                            <p><strong>Actor (Lane)</strong></p>
+                        </th>
+                        <th>
+                            <p><strong>Tarea / Actividad (Task)</strong></p>
+                        </th>
+                        <th>
+                            <p><strong>Documentos / Sistemas Involucrados</strong></p>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <p>1</p>
+                        </td>
+                        <td>
+                            <p>Operador</p>
+                        </td>
+                        <td>
+                            <p>Filtrar estados &quot;No Procesado&quot; y concepto &quot;Inscripción&quot;.</p>
+                        </td>
+                        <td>
+                            <p>vTiger (Payment Record) </p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <p>2</p>
+                        </td>
+                        <td>
+                            <p>Operador</p>
+                        </td>
+                        <td>
+                            <p>Revisar Soporte de Pago y copiar correo electrónico.</p>
+                        </td>
+                        <td>
+                            <p>Soporte de Pago adjunto </p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <p>3</p>
+                        </td>
+                        <td>
+                            <p>Operador</p>
+                        </td>
+                        <td>
+                            <p>Buscar alumno por correo o cédula.</p>
+                        </td>
+                        <td>
+                            <p>vTiger (Contactos) </p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <p>4</p>
+                        </td>
+                        <td>
+                            <p>Operador</p>
+                        </td>
+                        <td>
+                            <p>Crear nueva Factura desde el perfil del alumno.</p>
+                        </td>
+                        <td>
+                            <p>vTiger (Lista relacionada) </p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <p>5</p>
+                        </td>
+                        <td>
+                            <p>Operador</p>
+                        </td>
+                        <td>
+                            <p>Definir Asunto y seleccionar programa del diplomado.</p>
+                        </td>
+                        <td>
+                            <p>Formulario de Factura </p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <p>6</p>
+                        </td>
+                        <td>
+                            <p>Operador</p>
+                        </td>
+                        <td>
+                            <p>Crear y configurar Oportunidad (Cerrada-Ganada).</p>
+                        </td>
+                        <td>
+                            <p>vTiger (Módulo Oportunidades) </p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <p>7</p>
+                        </td>
+                        <td>
+                            <p>Operador</p>
+                        </td>
+                        <td>
+                            <p>Ingresar detalles financieros (Banco, Fecha, Monto, Referencia).</p>
+                        </td>
+                        <td>
+                            <p>Voucher de pago </p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <p>8</p>
+                        </td>
+                        <td>
+                            <p>Operador</p>
+                        </td>
+                        <td>
+                            <p>Autocompletar dirección y seleccionar ítem del diplomado.</p>
+                        </td>
+                        <td>
+                            <p>vTiger (Detalles Elemento) </p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <p>9</p>
+                        </td>
+                        <td>
+                            <p>Operador</p>
+                        </td>
+                        <td>
+                            <p>Verificar totales y guardar el registro.</p>
+                        </td>
+                        <td>
+                            <p>vTiger CRM </p>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <p><strong>4. Reglas de Negocio y Puertas de Enlace (Gateways)</strong></p>
+            <p><strong>Puerta de Enlace Analizada 1: ¿La información del pago es válida?</strong></p>
+            <ul>
+                <li>🟢 <strong>Camino &quot;SÍ&quot;:</strong> Los datos del voucher coinciden con el registro. Se
+                    procede a crear la factura. </li>
+                <li>🔴 <strong>Camino &quot;NO&quot;:</strong> Se debe contactar al alumno o reportar inconsistencia
+                    (flujo de excepción). </li>
+            </ul>
+            <p><strong>Puerta de Enlace Analizada 2: Configuración de la Oportunidad.</strong></p>
+            <ul>
+                <li>🟢 <strong>Regla:</strong> La Fase de Venta <strong>debe</strong> ser &quot;Cerrada-Ganada&quot;
+                    para asegurar la correcta ejecución del reporte de ingresos. </li>
+            </ul>
+            <p><strong>5. Identificación Inicial de Puntos de Dolor</strong></p>
+            <ul>
+                <li><strong>Búsqueda Manual:</strong> El operador debe copiar y pegar el correo entre módulos
+                    manualmente, lo que consume tiempo y genera riesgo de error. </li>
+                <li><strong>Entrada de Datos Redundante:</strong> El nombre del &quot;Asunto&quot; debe escribirse
+                    manualmente tanto en la Factura como en la Oportunidad. </li>
+                <li><strong>Validación Humana:</strong> El cotejo entre el &quot;Precio de Venta&quot; y el voucher es
+                    puramente visual, sin una regla de validación automática en el sistema.</li>
+            </ul>
+            <p><img src="images/img_adc67bad.png" /></p>
+            <p><strong>1. Identificación y Alcance del Proceso (TO-BE)</strong></p>
+            <p>Esta sección define el estado futuro y mejorado del flujo de facturación, priorizando la agilidad y la
+                trazabilidad total. </p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>
+                            <p><strong>Campo</strong></p>
+                        </th>
+                        <th>
+                            <p><strong>Descripción</strong></p>
+                        </th>
+                        <th>
+                            <p><strong>Contenido</strong></p>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <p><strong>Nombre del Proceso</strong></p>
+                        </td>
+                        <td>
+                            <p>Gestión Automatizada de Facturación y Oportunidades</p>
+                        </td>
+                        <td>
+                            <p>Proceso optimizado de ingresos. </p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <p><strong>Objetivo del Proceso</strong></p>
+                        </td>
+                        <td>
+                            <p>¿Qué valor aporta la mejora?</p>
+                        </td>
+                        <td>
+                            <p>Reducir el tiempo de ciclo de facturación y eliminar errores de digitación mediante la
+                                sincronización automática de datos entre el pago y la factura. </p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <p><strong>Punto de Inicio</strong></p>
+                        </td>
+                        <td>
+                            <p>¿Qué dispara el proceso?</p>
+                        </td>
+                        <td>
+                            <p>Registro de un nuevo pago en el módulo <em>Payment Record</em> vía API o entrada manual.
+                            </p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <p><strong>Punto de Fin</strong></p>
+                        </td>
+                        <td>
+                            <p>¿Cuál es el resultado final?</p>
+                        </td>
+                        <td>
+                            <p>Factura generada, Oportunidad cerrada y notificación automática al estudiante. </p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <p><strong>Documento Fuente</strong></p>
+                        </td>
+                        <td>
+                            <p>Base del análisis.</p>
+                        </td>
+                        <td>
+                            <p>Análisis AS-IS: Gestión y Creación de Facturas por Inscripción. </p>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <p><strong>2. Actores Involucrados (Lanes)</strong></p>
+            <p>En este modelo, el sistema asume un rol activo para realizar tareas que antes eran manuales. </p>
+            <ul>
+                <li><strong>Operador de Ventas (Iniciador/Supervisor):</strong> Responsable de validar casos de
+                    excepción y supervisar la integridad de los datos financieros. </li>
+                <li><strong>Sistema BPMS / vTiger (Automatizador):</strong> Enruta tareas, realiza búsquedas automáticas
+                    en la base de datos y genera registros vinculados sin intervención humana. </li>
+                <li><strong>Servicio de Notificación (Email/Cron):</strong> Informa al cliente y al equipo interno sobre
+                    el estado de la transacción. </li>
+            </ul>
+            <p><strong>3. Detalle de Actividades y Flujo TO-BE</strong></p>
+            <p>Se diferencia entre tareas de usuario (<strong>User Task</strong>) y tareas automáticas del sistema
+                (<strong>Service Task</strong>). </p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>
+                            <p><strong>No.</strong></p>
+                        </th>
+                        <th>
+                            <p><strong>Actor</strong></p>
+                        </th>
+                        <th>
+                            <p><strong>Tarea / Actividad</strong></p>
+                        </th>
+                        <th>
+                            <p><strong>Tipo de Tarea (BPMN)</strong></p>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <p>1</p>
+                        </td>
+                        <td>
+                            <p><strong>vTiger CRM</strong></p>
+                        </td>
+                        <td>
+                            <p>Detectar nuevo registro de pago y extraer correo electrónico.</p>
+                        </td>
+                        <td>
+                            <p>Service Task </p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <p>2</p>
+                        </td>
+                        <td>
+                            <p><strong>vTiger CRM</strong></p>
+                        </td>
+                        <td>
+                            <p>Buscar contacto coincidente por correo o ID automáticamente.</p>
+                        </td>
+                        <td>
+                            <p>Service Task </p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <p>3</p>
+                        </td>
+                        <td>
+                            <p><strong>Operador</strong></p>
+                        </td>
+                        <td>
+                            <p>Validar que el soporte adjunto coincida con el monto registrado.</p>
+                        </td>
+                        <td>
+                            <p>User Task </p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <p>4</p>
+                        </td>
+                        <td>
+                            <p><strong>vTiger CRM</strong></p>
+                        </td>
+                        <td>
+                            <p>Crear Factura vinculada al contacto con datos del programa.</p>
+                        </td>
+                        <td>
+                            <p>Service Task </p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <p>5</p>
+                        </td>
+                        <td>
+                            <p><strong>vTiger CRM</strong></p>
+                        </td>
+                        <td>
+                            <p>Crear Oportunidad &quot;Cerrada-Ganada&quot; heredando datos de la factura.</p>
+                        </td>
+                        <td>
+                            <p>Service Task </p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <p>6</p>
+                        </td>
+                        <td>
+                            <p><strong>Sistema</strong></p>
+                        </td>
+                        <td>
+                            <p>¿Validación exitosa? (Puerta de enlace lógica).</p>
+                        </td>
+                        <td>
+                            <p>Gateway Exclusive </p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <p>7</p>
+                        </td>
+                        <td>
+                            <p><strong>Servicio Email</strong></p>
+                        </td>
+                        <td>
+                            <p>Enviar comprobante de factura al correo del alumno.</p>
+                        </td>
+                        <td>
+                            <p>Service Task </p>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <p><strong>4. Reglas de Negocio y Puertas de Enlace (Gateways)</strong></p>
+            <p><strong>Puerta de Enlace 1: ¿Conciliación de Montos Exitosa?</strong></p>
+            <ul>
+                <li>🟢 <strong>Camino &quot;SÍ&quot; (Flujo de Continuidad):</strong>
+                    <ul>
+                        <li><strong>Criterio:</strong> El monto del voucher cargado coincide con el valor del ítem
+                            seleccionado. </li>
+                        <li><strong>Resultado:</strong> El sistema genera la factura y cierra la oportunidad
+                            automáticamente. </li>
+                    </ul>
+                </li>
+                <li>🔴 <strong>Camino &quot;NO&quot; (Flujo de Excepción):</strong>
+                    <ul>
+                        <li><strong>Criterio:</strong> Discrepancia entre el pago reportado y el valor del programa.
+                        </li>
+                        <li><strong>Resultado:</strong> Se crea una tarea de &quot;Revisión Manual&quot; para el
+                            Operador y se detiene el flujo de facturación. </li>
+                    </ul>
+                </li>
+            </ul>
+            <p><strong>5. Beneficios y Mejoras Implementadas (Justificación)</strong></p>
+            <ul>
+                <li><strong>Eliminación de Búsqueda Manual:</strong> El sistema realiza el cruce de correos electrónicos
+                    automáticamente, eliminando el riesgo de asociar facturas a contactos incorrectos. </li>
+                <li><strong>Integración de Datos:</strong> Se erradica la redundancia; el &quot;Asunto&quot; y los
+                    detalles financieros se completan una sola vez y se propagan a la Factura y Oportunidad. </li>
+                <li><strong>Trazabilidad:</strong> El solicitante (alumno) recibe una confirmación inmediata, y el
+                    proceso queda registrado con sellos de tiempo exactos en el BPMS. </li>
+            </ul>
+            <p><img src="images/img_aff62f65.png" /></p>
         </div>
-        <div class="content"><div class="document-container"><h1>1.AS-IS (INCRIPCION) TO-BE</h1><p><strong>1. Identificación y Alcance del Proceso</strong></p><p>Esta sección establece el contexto general y los límites del proceso de negocio en su estado actual.</p><table><thead><tr><th><p><strong>Campo</strong></p></th><th><p><strong>Descripción</strong></p></th><th><p><strong>Contenido</strong></p></th></tr></thead><tbody><tr><td><p><strong>Nombre del Proceso</strong></p></td><td><p>Gestión y Creación de Facturas por Inscripción (Nuevos Ingresos) </p></td><td><p>Proceso operativo de facturación comercial. </p></td></tr><tr><td><p><strong>Objetivo del Proceso</strong></p></td><td><p>¿Para qué existe este proceso?</p></td><td><p>Generar correctamente la factura comercial en el CRM para estudiantes de nuevo ingreso. </p></td></tr><tr><td><p><strong>Punto de Inicio</strong></p></td><td><p>¿Qué evento desencadena el proceso?</p></td><td><p>Identificación de un registro &quot;No Procesado&quot; en el módulo <em>Payment Record</em>. </p></td></tr><tr><td><p><strong>Punto de Fin</strong></p></td><td><p>¿Cuál es el resultado final?</p></td><td><p>Factura guardada en el sistema con ítems y montos validados. </p></td></tr><tr><td><p><strong>Documento Fuente</strong></p></td><td><p>Documento analizado.</p></td><td><p>MANUAL 1: Gestión y Creación de Facturas por Inscripción. </p></td></tr></tbody></table><p><strong>2. Actores Involucrados (Pools y Carriles / Lanes)</strong></p><table><thead><tr><th><p><strong>Actor (Lane)</strong></p></th><th><p><strong>Rol en el Proceso</strong></p></th><th><p><strong>Responsabilidades Clave</strong></p></th></tr></thead><tbody><tr><td><p><strong>Operador de Ventas</strong></p></td><td><p>Ejecutor</p></td><td><p>Revisar soportes, buscar contactos y registrar datos financieros. </p></td></tr><tr><td><p><strong>vTiger CRM</strong></p></td><td><p>Sistema / Plataforma</p></td><td><p>Almacenar registros, vincular oportunidades y procesar facturas. </p></td></tr></tbody></table><p><strong>3. Detalle de Actividades y Flujo AS-IS (Secuencia Lógica)</strong></p><table><thead><tr><th><p><strong>No.</strong></p></th><th><p><strong>Actor (Lane)</strong></p></th><th><p><strong>Tarea / Actividad (Task)</strong></p></th><th><p><strong>Documentos / Sistemas Involucrados</strong></p></th></tr></thead><tbody><tr><td><p>1</p></td><td><p>Operador</p></td><td><p>Filtrar estados &quot;No Procesado&quot; y concepto &quot;Inscripción&quot;.</p></td><td><p>vTiger (Payment Record) </p></td></tr><tr><td><p>2</p></td><td><p>Operador</p></td><td><p>Revisar Soporte de Pago y copiar correo electrónico.</p></td><td><p>Soporte de Pago adjunto </p></td></tr><tr><td><p>3</p></td><td><p>Operador</p></td><td><p>Buscar alumno por correo o cédula.</p></td><td><p>vTiger (Contactos) </p></td></tr><tr><td><p>4</p></td><td><p>Operador</p></td><td><p>Crear nueva Factura desde el perfil del alumno.</p></td><td><p>vTiger (Lista relacionada) </p></td></tr><tr><td><p>5</p></td><td><p>Operador</p></td><td><p>Definir Asunto y seleccionar programa del diplomado.</p></td><td><p>Formulario de Factura </p></td></tr><tr><td><p>6</p></td><td><p>Operador</p></td><td><p>Crear y configurar Oportunidad (Cerrada-Ganada).</p></td><td><p>vTiger (Módulo Oportunidades) </p></td></tr><tr><td><p>7</p></td><td><p>Operador</p></td><td><p>Ingresar detalles financieros (Banco, Fecha, Monto, Referencia).</p></td><td><p>Voucher de pago </p></td></tr><tr><td><p>8</p></td><td><p>Operador</p></td><td><p>Autocompletar dirección y seleccionar ítem del diplomado.</p></td><td><p>vTiger (Detalles Elemento) </p></td></tr><tr><td><p>9</p></td><td><p>Operador</p></td><td><p>Verificar totales y guardar el registro.</p></td><td><p>vTiger CRM </p></td></tr></tbody></table><p><strong>4. Reglas de Negocio y Puertas de Enlace (Gateways)</strong></p><p><strong>Puerta de Enlace Analizada 1: ¿La información del pago es válida?</strong></p><ul><li>🟢 <strong>Camino &quot;SÍ&quot;:</strong> Los datos del voucher coinciden con el registro. Se procede a crear la factura. </li><li>🔴 <strong>Camino &quot;NO&quot;:</strong> Se debe contactar al alumno o reportar inconsistencia (flujo de excepción). </li></ul><p><strong>Puerta de Enlace Analizada 2: Configuración de la Oportunidad.</strong></p><ul><li>🟢 <strong>Regla:</strong> La Fase de Venta <strong>debe</strong> ser &quot;Cerrada-Ganada&quot; para asegurar la correcta ejecución del reporte de ingresos. </li></ul><p><strong>5. Identificación Inicial de Puntos de Dolor</strong></p><ul><li><strong>Búsqueda Manual:</strong> El operador debe copiar y pegar el correo entre módulos manualmente, lo que consume tiempo y genera riesgo de error. </li><li><strong>Entrada de Datos Redundante:</strong> El nombre del &quot;Asunto&quot; debe escribirse manualmente tanto en la Factura como en la Oportunidad. </li><li><strong>Validación Humana:</strong> El cotejo entre el &quot;Precio de Venta&quot; y el voucher es puramente visual, sin una regla de validación automática en el sistema.</li></ul><p><img src="images/img_adc67bad.png" /></p><p><strong>1. Identificación y Alcance del Proceso (TO-BE)</strong></p><p>Esta sección define el estado futuro y mejorado del flujo de facturación, priorizando la agilidad y la trazabilidad total. </p><table><thead><tr><th><p><strong>Campo</strong></p></th><th><p><strong>Descripción</strong></p></th><th><p><strong>Contenido</strong></p></th></tr></thead><tbody><tr><td><p><strong>Nombre del Proceso</strong></p></td><td><p>Gestión Automatizada de Facturación y Oportunidades</p></td><td><p>Proceso optimizado de ingresos. </p></td></tr><tr><td><p><strong>Objetivo del Proceso</strong></p></td><td><p>¿Qué valor aporta la mejora?</p></td><td><p>Reducir el tiempo de ciclo de facturación y eliminar errores de digitación mediante la sincronización automática de datos entre el pago y la factura. </p></td></tr><tr><td><p><strong>Punto de Inicio</strong></p></td><td><p>¿Qué dispara el proceso?</p></td><td><p>Registro de un nuevo pago en el módulo <em>Payment Record</em> vía API o entrada manual. </p></td></tr><tr><td><p><strong>Punto de Fin</strong></p></td><td><p>¿Cuál es el resultado final?</p></td><td><p>Factura generada, Oportunidad cerrada y notificación automática al estudiante. </p></td></tr><tr><td><p><strong>Documento Fuente</strong></p></td><td><p>Base del análisis.</p></td><td><p>Análisis AS-IS: Gestión y Creación de Facturas por Inscripción. </p></td></tr></tbody></table><p><strong>2. Actores Involucrados (Lanes)</strong></p><p>En este modelo, el sistema asume un rol activo para realizar tareas que antes eran manuales. </p><ul><li><strong>Operador de Ventas (Iniciador/Supervisor):</strong> Responsable de validar casos de excepción y supervisar la integridad de los datos financieros. </li><li><strong>Sistema BPMS / vTiger (Automatizador):</strong> Enruta tareas, realiza búsquedas automáticas en la base de datos y genera registros vinculados sin intervención humana. </li><li><strong>Servicio de Notificación (Email/Cron):</strong> Informa al cliente y al equipo interno sobre el estado de la transacción. </li></ul><p><strong>3. Detalle de Actividades y Flujo TO-BE</strong></p><p>Se diferencia entre tareas de usuario (<strong>User Task</strong>) y tareas automáticas del sistema (<strong>Service Task</strong>). </p><table><thead><tr><th><p><strong>No.</strong></p></th><th><p><strong>Actor</strong></p></th><th><p><strong>Tarea / Actividad</strong></p></th><th><p><strong>Tipo de Tarea (BPMN)</strong></p></th></tr></thead><tbody><tr><td><p>1</p></td><td><p><strong>vTiger CRM</strong></p></td><td><p>Detectar nuevo registro de pago y extraer correo electrónico.</p></td><td><p>Service Task </p></td></tr><tr><td><p>2</p></td><td><p><strong>vTiger CRM</strong></p></td><td><p>Buscar contacto coincidente por correo o ID automáticamente.</p></td><td><p>Service Task </p></td></tr><tr><td><p>3</p></td><td><p><strong>Operador</strong></p></td><td><p>Validar que el soporte adjunto coincida con el monto registrado.</p></td><td><p>User Task </p></td></tr><tr><td><p>4</p></td><td><p><strong>vTiger CRM</strong></p></td><td><p>Crear Factura vinculada al contacto con datos del programa.</p></td><td><p>Service Task </p></td></tr><tr><td><p>5</p></td><td><p><strong>vTiger CRM</strong></p></td><td><p>Crear Oportunidad &quot;Cerrada-Ganada&quot; heredando datos de la factura.</p></td><td><p>Service Task </p></td></tr><tr><td><p>6</p></td><td><p><strong>Sistema</strong></p></td><td><p>¿Validación exitosa? (Puerta de enlace lógica).</p></td><td><p>Gateway Exclusive </p></td></tr><tr><td><p>7</p></td><td><p><strong>Servicio Email</strong></p></td><td><p>Enviar comprobante de factura al correo del alumno.</p></td><td><p>Service Task </p></td></tr></tbody></table><p><strong>4. Reglas de Negocio y Puertas de Enlace (Gateways)</strong></p><p><strong>Puerta de Enlace 1: ¿Conciliación de Montos Exitosa?</strong></p><ul><li>🟢 <strong>Camino &quot;SÍ&quot; (Flujo de Continuidad):</strong><ul><li><strong>Criterio:</strong> El monto del voucher cargado coincide con el valor del ítem seleccionado. </li><li><strong>Resultado:</strong> El sistema genera la factura y cierra la oportunidad automáticamente. </li></ul></li><li>🔴 <strong>Camino &quot;NO&quot; (Flujo de Excepción):</strong><ul><li><strong>Criterio:</strong> Discrepancia entre el pago reportado y el valor del programa. </li><li><strong>Resultado:</strong> Se crea una tarea de &quot;Revisión Manual&quot; para el Operador y se detiene el flujo de facturación. </li></ul></li></ul><p><strong>5. Beneficios y Mejoras Implementadas (Justificación)</strong></p><ul><li><strong>Eliminación de Búsqueda Manual:</strong> El sistema realiza el cruce de correos electrónicos automáticamente, eliminando el riesgo de asociar facturas a contactos incorrectos. </li><li><strong>Integración de Datos:</strong> Se erradica la redundancia; el &quot;Asunto&quot; y los detalles financieros se completan una sola vez y se propagan a la Factura y Oportunidad. </li><li><strong>Trazabilidad:</strong> El solicitante (alumno) recibe una confirmación inmediata, y el proceso queda registrado con sellos de tiempo exactos en el BPMS. </li></ul><p><img src="images/img_aff62f65.png" /></p></div></div>
-    </body>
-    </html>
-    
+    </div>
+</body>
+
+</html>
