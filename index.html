@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard de Procesos BPM</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+        
+        body { font-family: 'Inter', sans-serif; margin: 0; display: flex; height: 100vh; overflow: hidden; background-color: #f8f9fa; }
+        
+        /* Barra Lateral */
+        .sidebar { width: 300px; background-color: #2c3e50; color: white; display: flex; flex-direction: column; flex-shrink: 0; box-shadow: 2px 0 5px rgba(0,0,0,0.1); z-index: 10; }
+        .sidebar-header { padding: 20px; background-color: #1a252f; text-align: center; font-weight: bold; border-bottom: 1px solid #34495e; }
+        .sidebar ul { list-style: none; padding: 0; margin: 0; overflow-y: auto; flex-grow: 1; }
+        .sidebar li a { display: block; color: #bdc3c7; text-decoration: none; padding: 15px 25px; font-size: 0.9rem; border-bottom: 1px solid #34495e; transition: 0.3s; }
+        .sidebar li a:hover, .sidebar li a.active { background-color: #34495e; color: white; border-left: 4px solid #27ae60; padding-left: 30px; }
+
+        /* Contenedor del Documento */
+        .content-area { flex-grow: 1; display: flex; flex-direction: column; }
+        iframe { width: 100%; height: 100%; border: none; background-color: white; }
+    </style>
+</head>
+<body>
+
+    <div class="sidebar">
+        <div class="sidebar-header">📂 MANUALES DE PROCESOS</div>
+        <ul>
+            <li><a href="1.AS-IS (INCRIPCION) TO-BE.html" target="viewer" class="active">📄 1. Inscripción</a></li>
+            <li><a href="2.AS-IS  (ARANCEL)  TO-BE.html" target="viewer">📄 2. Aranceles</a></li>
+            <li><a href="3.AS-IS (FACTURAS POR PROMOCIONES) TO-BE.html" target="viewer">📄 3. Promociones</a></li>
+            <li><a href="4.AS-IS (REGISTRO DE PAGOS) TO-BE.html" target="viewer">📄 4. Registro de Pagos</a></li>
+            <li><a href="AS-IS (FACTURA TRAMITE ADMINISTRATIVO) TO-BE.html" target="viewer">📄 5. Trámite Adm.</a></li>
+            <li><a href="AS-IS (PROCESAMIENTO DE CUOTA) TO-BE.html" target="viewer">📄 6. Cuotas</a></li>
+        </ul>
+    </div>
+
+    <div class="content-area">
+        <iframe name="viewer" src="1.AS-IS (INCRIPCION) TO-BE.html"></iframe>
+    </div>
+
+    <script>
+        // Script simple para resaltar el botón activo
+        const links = document.querySelectorAll('.sidebar a');
+        links.forEach(link => {
+            link.addEventListener('click', function() {
+                links.forEach(l => l.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+    </script>
+</body>
+</html>
