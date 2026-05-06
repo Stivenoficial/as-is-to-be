@@ -31,8 +31,7 @@ def get_common_styles():
             .main-label {
                 writing-mode: vertical-rl;
                 transform: rotate(180deg);
-                /* Restaurado al azul marino corporativo */
-                background: #2c3e50; 
+                background: #27ae60; 
                 color: white;
                 padding: 15px;
                 font-weight: 700;
@@ -48,7 +47,7 @@ def get_common_styles():
 
             .grid-container {
                 display: grid;
-                /* Col 1: Headers (160px) | Col 2: Start (100px) | Cols 3 a 9: Nodos (200px) | Col 10: End (120px) */
+                /* Col 1: Headers | Col 2: Start | Cols 3-9: Pasos | Col 10: End */
                 grid-template-columns: 160px 100px repeat(7, 200px) 120px;
                 grid-template-rows: 160px 160px 160px;
                 position: relative;
@@ -123,13 +122,31 @@ def get_common_styles():
                 color: #444;
             }
 
+            .node-manual {
+                background-color: #fffaf0;
+                border-color: #f39c12;
+            }
+            .node-manual::after {
+                content: "👤 MANUAL";
+                position: absolute;
+                top: -10px;
+                right: -10px;
+                background: #f39c12;
+                color: white;
+                font-size: 0.55rem;
+                padding: 3px 6px;
+                border-radius: 4px;
+                font-weight: 700;
+                z-index: 20;
+            }
+
             .node-automation {
                 background-color: #e8f4fd;
                 border: 2px solid #2980b9;
                 color: #2c3e50;
             }
             .node-automation::after {
-                content: "⚙️ SCRIPT / BOT";
+                content: "⚙️ SISTEMA";
                 position: absolute;
                 top: -10px;
                 right: -10px;
@@ -144,14 +161,27 @@ def get_common_styles():
 
             .node-exception {
                 background-color: #ffeaea;
-                border-color: #d32f2f;
-                color: #d32f2f;
+                border: 2px solid #e74c3c;
+                color: #c0392b;
+            }
+            .node-exception::after {
+                content: "⚠️ ALERTA";
+                position: absolute;
+                top: -10px;
+                right: -10px;
+                background: #e74c3c;
+                color: white;
+                font-size: 0.55rem;
+                padding: 3px 6px;
+                border-radius: 4px;
+                font-weight: 700;
+                z-index: 20;
             }
 
             .node-start {
                 width: 50px;
                 height: 50px;
-                background-color: #e91e63;
+                background-color: #27ae60;
                 border-radius: 50%;
                 border: 2px solid #1a1a1a;
                 color: white;
@@ -223,28 +253,26 @@ def get_common_styles():
             }
 
             .path-yes {
-                stroke: #2ecc71;
+                stroke: #27ae60;
+                stroke-width: 2px;
                 marker-end: url(#arrowhead-yes);
             }
 
             .path-no {
                 stroke: #e74c3c;
+                stroke-width: 2px;
                 marker-end: url(#arrowhead-no);
+                stroke-dasharray: 5, 5;
             }
 
             .label-path {
-                font-size: 11px;
+                font-size: 12px;
                 font-weight: 700;
-                /* Borde blanco grueso al texto para que nunca se mezcle con las líneas de fondo */
                 text-shadow: 
                     2px 2px 0px #ffffff, 
                     -2px -2px 0px #ffffff, 
                     2px -2px 0px #ffffff, 
-                    -2px 2px 0px #ffffff,
-                    0px 2px 0px #ffffff,
-                    0px -2px 0px #ffffff,
-                    2px 0px 0px #ffffff,
-                    -2px 0px 0px #ffffff;
+                    -2px 2px 0px #ffffff;
             }
             .label-yes { fill: #27ae60; }
             .label-no { fill: #c0392b; }
@@ -253,7 +281,7 @@ def get_common_styles():
                 padding: 12px 24px;
                 font-size: 16px;
                 cursor: pointer;
-                background: #2c3e50;
+                background: #27ae60;
                 color: white;
                 border: none;
                 border-radius: 8px;
@@ -265,7 +293,7 @@ def get_common_styles():
             }
 
             .btn-download:hover {
-                background: #34495e;
+                background: #2ecc71;
                 transform: translateY(-2px);
             }
         </style>
@@ -304,7 +332,7 @@ def get_html_footer(filename):
                     link.click();
                     document.body.removeChild(link);
                 }}).finally(() => {{
-                    btn.innerText = 'Descargar como Imagen TO-BE';
+                    btn.innerText = 'Descargar Diagrama TO-BE';
                     btn.style.opacity = '1';
                 }});
             }}
@@ -313,11 +341,11 @@ def get_html_footer(filename):
     </html>
     """
 
-def get_promociones_tobe_content():
+def get_pagos_tobe_content():
     return """
-        <button class="btn-download" onclick="descargarImagen()">Descargar como Imagen TO-BE</button>
+        <button class="btn-download" onclick="descargarImagen()">Descargar Diagrama TO-BE</button>
         <div class="canvas" id="diagrama">
-            <div class="main-label">PROMO TO-BE</div>
+            <div class="main-label">PROCESO OPTIMIZADO (TO-BE)</div>
             
             <div class="grid-container">
                 <!-- 3 Carriles (Lanes) -->
@@ -326,9 +354,9 @@ def get_promociones_tobe_content():
                 <div class="lane-line"></div>
 
                 <!-- Cabeceras de Actor -->
-                <div class="header header-1">Operador Administrativo<br><span>(Supervisor)</span></div>
-                <div class="header header-2">vTiger CRM<br><span>(Motor / Automatizador)</span></div>
-                <div class="header header-3">Notificaciones<br><span>(Soporte)</span></div>
+                <div class="header header-1">Operador Administrativo<br><span>(Validador / Supervisor)</span></div>
+                <div class="header header-2">Sistema vTiger<br><span>(BPMS / Core)</span></div>
+                <div class="header header-3">Servicio Integración<br><span>(Middleware API / Cron)</span></div>
 
                 <!-- ======== NODOS ======== -->
                 
@@ -337,148 +365,143 @@ def get_promociones_tobe_content():
                     <div class="node-start">INICIO</div>
                 </div>
 
-                <!-- Col 3: User Task (Operador) -->
+                <!-- Col 3: Ingresar Ref (Operador - User Task) -->
                 <div class="cell" style="grid-column: 3; grid-row: 1;">
-                    <div class="node">
-                        <div class="node-title">1. Activar Bandera</div>
-                        <div class="node-desc">Identificar pago "Promo 2x100" y disparar flujo</div>
+                    <div class="node node-manual">
+                        <div class="node-title">1. Ingresar Datos</div>
+                        <div class="node-desc">Cargar Ref. y Monto (User Task)</div>
                     </div>
                 </div>
 
-                <!-- Col 4: Validar Datos (vTiger) -->
-                <div class="cell" style="grid-column: 4; grid-row: 2;">
-                    <div class="node">
-                        <div class="node-title">2. Validar Datos</div>
-                        <div class="node-desc">Existencia de Fichas para Estudiante 1 y 2</div>
+                <!-- Col 4: Validar Fondos API (Middleware - Service Task) -->
+                <div class="cell" style="grid-column: 4; grid-row: 3;">
+                    <div class="node node-automation">
+                        <div class="node-title">2. Validar Fondos</div>
+                        <div class="node-desc">Cruce vs API bancaria y BDD</div>
                     </div>
                 </div>
 
-                <!-- Col 5: GW1 (vTiger) -->
+                <!-- Col 5: GW1 (vTiger - Exclusive Gateway) -->
                 <div class="cell" style="grid-column: 5; grid-row: 2;">
                     <div class="diamond-container">
                         <div class="diamond">
-                            <span>¿Datos<br>Completos?</span>
+                            <span>3. ¿Ref.<br>Válida?</span>
                         </div>
                     </div>
                 </div>
 
-                <!-- Col 5 Row 1: Excepcion Corrección (Operador) -->
-                <div class="cell" style="grid-column: 5; grid-row: 1;">
+                <!-- Col 6 Row 1: Excepción (Operador - Revisión Manual) - RUTA NO -->
+                <div class="cell" style="grid-column: 6; grid-row: 1;">
                     <div class="node node-exception">
-                        <div class="node-title">EXCEPCIÓN:</div>
-                        <div class="node-desc">Tarea asignada: "Corregir datos de estudiantes"</div>
+                        <div class="node-title">Pendiente Revisión</div>
+                        <div class="node-desc">Alerta Operador: Discrepancia</div>
                     </div>
                 </div>
 
-                <!-- Col 6: Generar Factura (vTiger) -->
+                <!-- Col 6 Row 2: Crear Payment (vTiger - Service Task) - RUTA SI -->
                 <div class="cell" style="grid-column: 6; grid-row: 2;">
-                    <div class="node">
-                        <div class="node-title">3. Generar Factura</div>
-                        <div class="node-desc">Vincular programas automáticamente (Service)</div>
+                    <div class="node node-automation">
+                        <div class="node-title">4. Crear Payment</div>
+                        <div class="node-desc">Crear registro y vincular a factura</div>
                     </div>
                 </div>
 
-                <!-- Col 7: Script Descuento Automático (vTiger) -->
+                <!-- Col 7: Script Actualización (vTiger - Script Task) -->
                 <div class="cell" style="grid-column: 7; grid-row: 2;">
                     <div class="node node-automation">
-                        <div class="node-title">4. Ajuste Contable</div>
-                        <div class="node-desc">Script: Forzar Descuento hasta clavar $100.00</div>
+                        <div class="node-title">5. Ejecutar Script</div>
+                        <div class="node-desc">Actualización de datos (Sustituye Macro)</div>
                     </div>
                 </div>
 
-                <!-- Col 8: GW2 Balance Seguro (vTiger) -->
+                <!-- Col 8: Generar PDF y Correo (vTiger - Service Task) -->
                 <div class="cell" style="grid-column: 8; grid-row: 2;">
-                    <div class="diamond-container">
-                        <div class="diamond">
-                            <span>¿Total<br>Exacto $100?</span>
-                        </div>
+                    <div class="node node-automation">
+                        <div class="node-title">6. Enviar Factura</div>
+                        <div class="node-desc">Generar PDF con firma y enviar por correo</div>
                     </div>
                 </div>
 
-                <!-- Col 8 Row 3: Excepcion Alerta (Notificaciones) -->
-                <div class="cell" style="grid-column: 8; grid-row: 3;">
-                    <div class="node node-exception" style="background-color: #fff3e0; border-color: #e67e22; color: #d35400;">
-                        <div class="node-title">ALERTA SISTEMA</div>
-                        <div class="node-desc">Bloqueo guardado y Notifica Admin de CRM</div>
+                <!-- Col 9: Cambiar Estatus (vTiger - Service Task) -->
+                <div class="cell" style="grid-column: 9; grid-row: 2;">
+                    <div class="node node-automation">
+                        <div class="node-title">7. Marcar Procesado</div>
+                        <div class="node-desc">Cierra ciclo sin intervención humana</div>
                     </div>
                 </div>
 
-                <!-- Col 9: Guardar y Enviar (Notificaciones) -->
-                <div class="cell" style="grid-column: 9; grid-row: 3;">
-                    <div class="node">
-                        <div class="node-title">5. Guardar y Enviar</div>
-                        <div class="node-desc">Cerrar registro y enviar copia digital PDF</div>
-                    </div>
-                </div>
-
-                <!-- Col 10: Fin (Notificaciones) -->
-                <div class="cell" style="grid-column: 10; grid-row: 3;">
+                <!-- Col 10: Fin -->
+                <div class="cell" style="grid-column: 10; grid-row: 2;">
                     <div class="node-end">FIN</div>
                 </div>
 
-                <!-- ======== RUTAS Y FLECHAS ======== -->
-                <svg class="svg-overlay" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
-                    <defs>
-                        <marker id="arrowhead" markerWidth="6" markerHeight="4" refX="5" refY="2" orient="auto">
-                            <polygon points="0 0, 6 2, 0 4" fill="#1a1a1a" />
-                        </marker>
-                        <marker id="arrowhead-yes" markerWidth="6" markerHeight="4" refX="5" refY="2" orient="auto">
-                            <polygon points="0 0, 6 2, 0 4" fill="#27ae60" />
-                        </marker>
-                        <marker id="arrowhead-no" markerWidth="6" markerHeight="4" refX="5" refY="2" orient="auto">
-                            <polygon points="0 0, 6 2, 0 4" fill="#c0392b" />
-                        </marker>
-                    </defs>
+                <!-- ======== CONECTORES (FLECHAS SVG) ======== -->
+                <div class="svg-overlay">
+                    <svg width="100%" height="100%">
+                        <defs>
+                            <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+                                <polygon points="0 0, 10 3.5, 0 7" fill="#1a1a1a" />
+                            </marker>
+                            <marker id="arrowhead-yes" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+                                <polygon points="0 0, 10 3.5, 0 7" fill="#27ae60" />
+                            </marker>
+                            <marker id="arrowhead-no" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+                                <polygon points="0 0, 10 3.5, 0 7" fill="#e74c3c" />
+                            </marker>
+                        </defs>
 
-                    <!-- Inicio a Nodo 1 (Carril 1) -->
-                    <path d="M 235 80 L 285 80" />
-                    
-                    <!-- Nodo 1 a Nodo 2 (Baja a Carril 2) -->
-                    <path d="M 430 80 L 460 80 L 460 240 L 485 240" />
-                    
-                    <!-- Nodo 2 a GW1 (Carril 2) -->
-                    <path d="M 630 240 L 709 240" />
-                    
-                    <!-- GW1 a Nodo 3 (SÍ) -->
-                    <path class="path-yes" d="M 806 240 L 885 240" />
-                    <text x="830" y="232" class="label-path label-yes">SÍ</text>
+                        <!-- Start a Node 1 (Operador) -->
+                        <path d="M 235 80 L 285 80" />
 
-                    <!-- GW1 a Excepción 1 (NO -> Sube a Carril 1) -->
-                    <path class="path-no" d="M 760 194 L 760 120" />
-                    <text x="770" y="165" class="label-path label-no">NO</text>
+                        <!-- Node 1 a Node 2 (Baja a Integración) -->
+                        <path d="M 430 80 C 460 80, 460 400, 485 400" />
 
-                    <!-- Nodo 3 a Nodo 4 (Carril 2) -->
-                    <path d="M 1030 240 L 1085 240" />
+                        <!-- Node 2 a Gateway (Sube a vTiger) -->
+                        <path d="M 630 400 C 680 400, 680 240, 720 240" />
 
-                    <!-- Nodo 4 (Script) a GW2 (Carril 2) -->
-                    <path d="M 1230 240 L 1309 240" />
+                        <!-- Gateway a Excepción (Camino NO) -->
+                        <path class="path-no" d="M 760 207 L 760 80 L 885 80" />
+                        <text x="770" y="140" class="label-path label-no">NO (Invalida)</text>
 
-                    <!-- GW2 a Guardar/Enviar (SÍ) -->
-                    <!-- Avanza horizontalmente al centro de la columna 9 y luego baja hacia la caja -->
-                    <path class="path-yes" d="M 1406 240 L 1560 240 L 1560 360" />
-                    <text x="1450" y="232" class="label-path label-yes">SÍ (Balance Seguro)</text>
+                        <!-- Gateway a Node 4 (Camino SÍ) -->
+                        <path class="path-yes" d="M 795 240 L 885 240" />
+                        <text x="820" y="230" class="label-path label-yes">SÍ (Exitosa)</text>
 
-                    <!-- GW2 a Excepción Alerta (NO) -->
-                    <!-- Baja en línea recta hacia la alerta -->
-                    <path class="path-no" d="M 1360 286 L 1360 360" />
-                    <text x="1375" y="335" class="label-path label-no">NO (Error Base)</text>
+                        <!-- Node 4 a Node 5 -->
+                        <path d="M 1030 240 L 1085 240" />
 
-                    <!-- Guardar a Fin (Carril 3) -->
-                    <path d="M 1630 400 L 1690 400" />
-                </svg>
+                        <!-- Node 5 a Node 6 -->
+                        <path d="M 1230 240 L 1285 240" />
+
+                        <!-- Node 6 a Node 7 -->
+                        <path d="M 1430 240 L 1485 240" />
+
+                        <!-- Node 7 a FIN -->
+                        <path d="M 1630 240 L 1690 240" />
+                    </svg>
+                </div>
             </div>
         </div>
     """
 
-def generar_diagrama_promociones_tobe():
-    html_tobe = get_html_header("TO-BE Promociones Automatizado") + get_promociones_tobe_content() + get_html_footer("diagrama_promociones_tobe_oficial.html")
+def main():
+    # Unimos Header, Contenido y Footer
+    html_completo = get_html_header("Proceso TO-BE Optimizado") + get_pagos_tobe_content() + get_html_footer("pagos_tobe.html")
     
-    filename = "diagrama_promociones_tobe_oficial.html"
-    with open(filename, "w", encoding="utf-8") as f:
-        f.write(html_tobe)
+    # Creamos y guardamos el archivo HTML
+    ruta_archivo = os.path.abspath("pagos_tobe.html")
+    with open(ruta_archivo, "w", encoding="utf-8") as file:
+        file.write(html_completo)
     
-    print(f"Diagrama TO-BE generado exitosamente. Barra lateral restaurada al azul corporativo: {filename}")
-    webbrowser.open(f"file://{os.path.abspath(filename)}")
+    print(f"Diagrama TO-BE generado correctamente en:\n{ruta_archivo}")
+    
+    # Abrimos automáticamente en el navegador web
+    webbrowser.open("file://" + ruta_archivo)
 
 if __name__ == "__main__":
-    generar_diagrama_promociones_tobe()
+    main()
+
+# =========================================================
+#   ASEGURATE DE COPIAR HASTA ESTA LÍNEA, NO TE QUEDES
+#   A LA MITAD DEL CÓDIGO O DARÁ ERROR DE COMILLAS.
+# =========================================================

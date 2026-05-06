@@ -23,8 +23,8 @@ def get_common_styles():
                 border: 3px solid #1a1a1a;
                 display: flex;
                 position: relative;
-                /* Ampliado para albergar cómodamente el nuevo espaciado */
-                min-width: 2200px;
+                /* Ampliado para 12 columnas (2180px) */
+                min-width: 2180px;
                 box-shadow: 0 10px 30px rgba(0,0,0,0.1);
                 margin-top: 20px;
             }
@@ -32,7 +32,8 @@ def get_common_styles():
             .main-label {
                 writing-mode: vertical-rl;
                 transform: rotate(180deg);
-                background: #2c3e50;
+                /* Azul Corporativo para AS-IS */
+                background: #2c3e50; 
                 color: white;
                 padding: 15px;
                 font-weight: 700;
@@ -48,9 +49,9 @@ def get_common_styles():
 
             .grid-container {
                 display: grid;
-                /* Col 1: 140px | Col 2: 100px | Cols 3 a 11: 200px (Espacio amplio) | Col 12: 120px = Total 2160px */
-                grid-template-columns: 140px 100px repeat(9, 200px) 120px;
-                grid-template-rows: 160px 160px;
+                /* Col 1: 160px | Col 2: 100px | Cols 3 a 11: 200px | Col 12: 120px */
+                grid-template-columns: 160px 100px repeat(9, 200px) 120px;
+                grid-template-rows: 160px 160px 160px;
                 position: relative;
                 flex-grow: 1;
             }
@@ -61,7 +62,8 @@ def get_common_styles():
                 z-index: 1;
             }
             .lane-line:nth-child(1) { grid-row: 1; }
-            .lane-line:nth-child(2) { grid-row: 2; border-bottom: none; }
+            .lane-line:nth-child(2) { grid-row: 2; }
+            .lane-line:nth-child(3) { grid-row: 3; border-bottom: none; }
 
             .header {
                 grid-column: 1;
@@ -79,11 +81,13 @@ def get_common_styles():
             }
             .header-1 { grid-row: 1; }
             .header-2 { grid-row: 2; }
+            .header-3 { grid-row: 3; }
             
             .header span {
                 font-weight: 400;
                 font-size: 0.7rem;
                 margin-top: 5px;
+                color: #555;
             }
 
             .cell {
@@ -96,7 +100,7 @@ def get_common_styles():
 
             .node {
                 width: 140px;
-                min-height: 70px;
+                min-height: 80px;
                 background: white;
                 border: 1px solid #1a1a1a;
                 display: flex;
@@ -108,7 +112,6 @@ def get_common_styles():
                 padding: 10px;
                 box-shadow: 2px 2px 4px rgba(0,0,0,0.05);
                 position: relative;
-                z-index: 10;
             }
 
             .node-title {
@@ -134,8 +137,8 @@ def get_common_styles():
                 right: -10px;
                 background: #ff9800;
                 color: white;
-                font-size: 0.6rem;
-                padding: 2px 6px;
+                font-size: 0.55rem;
+                padding: 3px 6px;
                 border-radius: 4px;
                 font-weight: 700;
                 z-index: 20;
@@ -150,7 +153,7 @@ def get_common_styles():
             .node-start {
                 width: 50px;
                 height: 50px;
-                background-color: #e91e63;
+                background-color: #2c3e50;
                 border-radius: 50%;
                 border: 2px solid #1a1a1a;
                 color: white;
@@ -159,7 +162,6 @@ def get_common_styles():
                 display: flex;
                 align-items: center;
                 justify-content: center;
-                z-index: 10;
             }
 
             .node-end {
@@ -174,7 +176,6 @@ def get_common_styles():
                 display: flex;
                 align-items: center;
                 justify-content: center;
-                z-index: 10;
             }
 
             .diamond-container {
@@ -182,7 +183,6 @@ def get_common_styles():
                 align-items: center;
                 justify-content: center;
                 position: relative;
-                z-index: 10;
             }
 
             .diamond {
@@ -213,7 +213,6 @@ def get_common_styles():
                 left: 0;
                 width: 100%;
                 height: 100%;
-                /* Subimos el Z-index para asegurar que las flechas pisen los bordes */
                 z-index: 15;
                 pointer-events: none;
             }
@@ -232,16 +231,24 @@ def get_common_styles():
 
             .path-no {
                 stroke: #e74c3c;
-                stroke-dasharray: 4;
                 marker-end: url(#arrowhead-no);
             }
 
             .label-path {
                 font-size: 11px;
                 font-weight: 700;
+                text-shadow: 
+                    2px 2px 0px #ffffff, 
+                    -2px -2px 0px #ffffff, 
+                    2px -2px 0px #ffffff, 
+                    -2px 2px 0px #ffffff,
+                    0px 2px 0px #ffffff,
+                    0px -2px 0px #ffffff,
+                    2px 0px 0px #ffffff,
+                    -2px 0px 0px #ffffff;
             }
-            .label-yes { fill: #2ecc71; }
-            .label-no { fill: #e74c3c; }
+            .label-yes { fill: #27ae60; }
+            .label-no { fill: #c0392b; }
 
             .btn-download {
                 padding: 12px 24px;
@@ -298,7 +305,7 @@ def get_html_footer(filename):
                     link.click();
                     document.body.removeChild(link);
                 }}).finally(() => {{
-                    btn.innerText = 'Descargar como Imagen';
+                    btn.innerText = 'Descargar Diagrama AS-IS';
                     btn.style.opacity = '1';
                 }});
             }}
@@ -307,184 +314,178 @@ def get_html_footer(filename):
     </html>
     """
 
-def get_promociones_asis_content():
+def get_pagos_asis_content():
     return """
-        <button class="btn-download" onclick="descargarImagen()">Descargar como Imagen</button>
+        <button class="btn-download" onclick="descargarImagen()">Descargar Diagrama AS-IS</button>
         <div class="canvas" id="diagrama">
-            <div class="main-label">PROMO AS-IS</div>
+            <div class="main-label">PAGOS AS-IS</div>
             
             <div class="grid-container">
-                <!-- Líneas de Carril -->
+                <!-- 3 Carriles (Lanes) -->
+                <div class="lane-line"></div>
                 <div class="lane-line"></div>
                 <div class="lane-line"></div>
 
-                <!-- Cabeceras -->
-                <div class="header header-1">Operador Administrativo<br><span>(Ejecutor / Manual)</span></div>
-                <div class="header header-2">vTiger CRM<br><span>(Soporte / Motor Cálculo)</span></div>
+                <!-- Cabeceras de Actor -->
+                <div class="header header-1">Operador Administrativo<br><span>(Ejecutor Manual)</span></div>
+                <div class="header header-2">vTiger CRM<br><span>(Sistema Base)</span></div>
+                <div class="header header-3">Plataforma Bancaria<br><span>(Validación Externa)</span></div>
 
-                <!-- Nodos -->
+                <!-- ======== NODOS ======== -->
                 
-                <!-- Col 2: Start -->
+                <!-- Col 2: Start (Operador) -->
                 <div class="cell" style="grid-column: 2; grid-row: 1;">
                     <div class="node-start">INICIO</div>
                 </div>
 
-                <!-- Col 3: Filtrar -->
-                <div class="cell" style="grid-column: 3; grid-row: 1;">
+                <!-- Col 3: Abrir Factura (vTiger) -->
+                <div class="cell" style="grid-column: 3; grid-row: 2;">
                     <div class="node">
-                        <div class="node-title">1. Filtrar Registro</div>
-                        <div class="node-desc">Identificar pago "Promo 2x100"</div>
+                        <div class="node-title">1. Acceder Factura</div>
+                        <div class="node-desc">Abrir detalles de la factura generada</div>
                     </div>
                 </div>
 
-                <!-- Col 4: Verificar -->
-                <div class="cell" style="grid-column: 4; grid-row: 1;">
+                <!-- Col 4: Payments (vTiger) -->
+                <div class="cell" style="grid-column: 4; grid-row: 2;">
                     <div class="node">
-                        <div class="node-title">2. Verificar Datos</div>
-                        <div class="node-desc">Cruce Estudiante 1 y 2 en Fichas</div>
+                        <div class="node-title">2. Módulo Payments</div>
+                        <div class="node-desc">Ingresar al sub-módulo de pagos</div>
                     </div>
                 </div>
 
-                <!-- Col 5: GW1 Datos Correctos -->
-                <div class="cell" style="grid-column: 5; grid-row: 1;">
+                <!-- Col 5: Banco (Plataforma Bancaria) -->
+                <div class="cell" style="grid-column: 5; grid-row: 3;">
+                    <div class="node">
+                        <div class="node-title">3. Consultar Banco</div>
+                        <div class="node-desc">Revisar Mercantil, Zelle o PayPal</div>
+                    </div>
+                </div>
+
+                <!-- Col 6: GW1 (Operador) -->
+                <div class="cell" style="grid-column: 6; grid-row: 1;">
                     <div class="diamond-container">
                         <div class="diamond">
-                            <span>¿Datos<br>Correctos?</span>
+                            <span>¿Ingreso<br>Validado?</span>
                         </div>
                     </div>
                 </div>
 
-                <!-- Col 5 Row 2: Excepcion Corrección -->
-                <div class="cell" style="grid-column: 5; grid-row: 2;">
+                <!-- Col 6 Row 2: Excepción -->
+                <div class="cell" style="grid-column: 6; grid-row: 2;">
                     <div class="node node-exception">
                         <div class="node-title">EXCEPCIÓN</div>
-                        <div class="node-desc">Detener y corregir en Fichas CRM</div>
+                        <div class="node-desc">Fondo no disponible o ref. errónea (Pausa)</div>
                     </div>
                 </div>
 
-                <!-- Col 6: Crear Factura (PAIN) -->
-                <div class="cell" style="grid-column: 6; grid-row: 1;">
-                    <div class="node node-pain">
-                        <div class="node-title">3. Crear Factura</div>
-                        <div class="node-desc">Asunto y Oportunidad creados a mano</div>
-                    </div>
-                </div>
-
-                <!-- Col 7: Agregar Prod -->
+                <!-- Col 7: Registrar Datos (Operador) [PAIN] -->
                 <div class="cell" style="grid-column: 7; grid-row: 1;">
-                    <div class="node">
-                        <div class="node-title">4. Ingresar Montos</div>
-                        <div class="node-desc">Diplomado 1, 2 y estado "Pagada"</div>
-                    </div>
-                </div>
-
-                <!-- Col 8: Aplicar Descuento (PAIN) -->
-                <div class="cell" style="grid-column: 8; grid-row: 1;">
                     <div class="node node-pain">
-                        <div class="node-title">5. Aplicar Desc.</div>
-                        <div class="node-desc">Carga manual de 90% a cada ítem</div>
+                        <div class="node-title">4. Registrar Datos</div>
+                        <div class="node-desc">Transcripción manual de Monto y Ref (Propenso a errores)</div>
                     </div>
                 </div>
 
-                <!-- Col 9 Row 2: CRM Calculo -->
-                <div class="cell" style="grid-column: 9; grid-row: 2;">
-                    <div class="node" style="border: 2px solid #2c3e50; background: #f8f9fa;">
-                        <div class="node-title">Motor vTiger</div>
-                        <div class="node-desc">Cálculo de "Total Elementos"</div>
-                    </div>
-                </div>
-
-                <!-- Col 10: GW2 Balance Exacto (PAIN Visual) -->
-                <div class="cell" style="grid-column: 10; grid-row: 1;">
-                    <div class="diamond-container">
-                        <div class="diamond" style="border-color: #ff9800; background: #fff4e5; border-style: dashed;">
-                            <span style="color: #e65100;">¿Total<br>Exacto $100?</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Col 11: Guardar -->
-                <div class="cell" style="grid-column: 11; grid-row: 1;">
+                <!-- Col 8: Record Payment (vTiger) -->
+                <div class="cell" style="grid-column: 8; grid-row: 2;">
                     <div class="node">
-                        <div class="node-title">6. Guardar</div>
-                        <div class="node-desc">Registro de la factura finalizada</div>
+                        <div class="node-title">5. Record Payment</div>
+                        <div class="node-desc">Ejecutar botón de guardado en el CRM</div>
                     </div>
                 </div>
 
-                <!-- Col 12: Fin -->
+                <!-- Col 9: Macro (Operador) [PAIN] -->
+                <div class="cell" style="grid-column: 9; grid-row: 1;">
+                    <div class="node node-pain">
+                        <div class="node-title">6. Ejecutar Macro</div>
+                        <div class="node-desc">Clic manual para "Actualizar Datos" (Falta automatización)</div>
+                    </div>
+                </div>
+
+                <!-- Col 10: Email (Operador) [PAIN] -->
+                <div class="cell" style="grid-column: 10; grid-row: 1;">
+                    <div class="node node-pain">
+                        <div class="node-title">7. Enviar PDF</div>
+                        <div class="node-desc">Quitar firma y adjuntar correo repetitivamente</div>
+                    </div>
+                </div>
+
+                <!-- Col 11: Procesado (Operador) [PAIN] -->
+                <div class="cell" style="grid-column: 11; grid-row: 1;">
+                    <div class="node node-pain">
+                        <div class="node-title">8. Estatus Final</div>
+                        <div class="node-desc">Cambio manual a "Procesado" (Cierre redundante)</div>
+                    </div>
+                </div>
+
+                <!-- Col 12: Fin (Operador) -->
                 <div class="cell" style="grid-column: 12; grid-row: 1;">
                     <div class="node-end">FIN</div>
                 </div>
 
-                <!-- Capa de SVG con Flechas -->
+                <!-- ======== RUTAS Y FLECHAS ======== -->
                 <svg class="svg-overlay" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
                     <defs>
                         <marker id="arrowhead" markerWidth="6" markerHeight="4" refX="5" refY="2" orient="auto">
                             <polygon points="0 0, 6 2, 0 4" fill="#1a1a1a" />
                         </marker>
                         <marker id="arrowhead-yes" markerWidth="6" markerHeight="4" refX="5" refY="2" orient="auto">
-                            <polygon points="0 0, 6 2, 0 4" fill="#2ecc71" />
+                            <polygon points="0 0, 6 2, 0 4" fill="#27ae60" />
                         </marker>
                         <marker id="arrowhead-no" markerWidth="6" markerHeight="4" refX="5" refY="2" orient="auto">
-                            <polygon points="0 0, 6 2, 0 4" fill="#e74c3c" />
+                            <polygon points="0 0, 6 2, 0 4" fill="#c0392b" />
                         </marker>
                     </defs>
 
-                    <!-- Coordenadas calculadas para que terminen justo 2 a 4px antes de cada caja para evitar solapamientos -->
+                    <!-- Inicio a Nodo 1 (Baja a Carril 2) -->
+                    <path d="M 235 80 L 260 80 L 260 240 L 285 240" />
                     
-                    <!-- Inicio a Nodo 1 -->
-                    <path d="M 215 80 L 265 80" />
+                    <!-- Nodo 1 a Nodo 2 (Carril 2) -->
+                    <path d="M 430 240 L 485 240" />
                     
-                    <!-- Nodo 1 a Nodo 2 -->
-                    <path d="M 410 80 L 465 80" />
+                    <!-- Nodo 2 a Banco (Baja a Carril 3) -->
+                    <path d="M 630 240 L 660 240 L 660 400 L 685 400" />
                     
-                    <!-- Nodo 2 a GW1 -->
-                    <path d="M 610 80 L 689 80" />
-                    
-                    <!-- GW1 a Nodo 3 (SÍ) -->
-                    <path class="path-yes" d="M 786 80 L 865 80" />
-                    <text x="820" y="72" class="label-path label-yes">SÍ</text>
+                    <!-- Banco a GW1 (Sube a Carril 1) -->
+                    <path d="M 830 400 L 860 400 L 860 80 L 914 80" />
 
-                    <!-- GW1 a Excepción (NO) - Hacia abajo -->
-                    <path class="path-no" d="M 740 126 L 740 200" />
-                    <text x="750" y="160" class="label-path label-no">NO</text>
+                    <!-- GW1 a Nodo 4 (SÍ -> Derecho en Carril 1) -->
+                    <path class="path-yes" d="M 1006 80 L 1085 80" />
+                    <text x="1030" y="72" class="label-path label-yes">SÍ</text>
 
-                    <!-- Nodo 3 a Nodo 4 -->
-                    <path d="M 1010 80 L 1065 80" />
+                    <!-- GW1 a Excepción (NO -> Baja a Carril 2) -->
+                    <path class="path-no" d="M 960 126 L 960 195" />
+                    <text x="970" y="165" class="label-path label-no">NO</text>
 
-                    <!-- Nodo 4 a Nodo 5 -->
-                    <path d="M 1210 80 L 1265 80" />
+                    <!-- Nodo 4 (Datos) a Nodo 5 (Baja a Carril 2) -->
+                    <path d="M 1230 80 L 1260 80 L 1260 240 L 1285 240" />
 
-                    <!-- Nodo 5 a Motor CRM (Baja a carril 2) -->
-                    <path d="M 1410 80 L 1540 80 L 1540 200" />
+                    <!-- Nodo 5 a Nodo 6 (Sube a Carril 1) -->
+                    <path d="M 1430 240 L 1460 240 L 1460 80 L 1485 80" />
 
-                    <!-- Motor CRM a GW2 (Sube a carril 1) -->
-                    <path d="M 1610 240 L 1740 240 L 1740 131" />
+                    <!-- Nodo 6 a Nodo 7 (Carril 1) -->
+                    <path d="M 1630 80 L 1685 80" />
 
-                    <!-- GW2 a Guardar (SÍ) -->
-                    <path class="path-yes" d="M 1786 80 L 1865 80" />
-                    <text x="1820" y="72" class="label-path label-yes">SÍ</text>
+                    <!-- Nodo 7 a Nodo 8 (Carril 1) -->
+                    <path d="M 1830 80 L 1885 80" />
 
-                    <!-- GW2 de regreso al Nodo 5 (NO) - Bucle de corrección por arriba -->
-                    <path class="path-no" d="M 1740 34 L 1740 15 L 1340 15 L 1340 40" />
-                    <text x="1500" y="10" class="label-path label-no">NO (Reevaluar desc.)</text>
-
-                    <!-- Guardar a Fin -->
-                    <path d="M 2010 80 L 2070 80" />
+                    <!-- Nodo 8 a FIN (Carril 1) -->
+                    <path d="M 2030 80 L 2090 80" />
                 </svg>
             </div>
         </div>
     """
 
-def generar_diagrama_promociones_oficial():
-    html_asis = get_html_header("AS-IS Promociones (Oficial y Corregido)") + get_promociones_asis_content() + get_html_footer("diagrama_promociones_asis_oficial.html")
+def generar_diagrama_pagos_asis():
+    html = get_html_header("AS-IS Registro de Pagos") + get_pagos_asis_content() + get_html_footer("diagrama_pagos_asis_oficial.html")
     
-    filename = "diagrama_promociones_asis_oficial.html"
+    filename = "diagrama_pagos_asis_oficial.html"
     with open(filename, "w", encoding="utf-8") as f:
-        f.write(html_asis)
+        f.write(html)
     
-    print(f"Diagrama AS-IS generado con éxito con espaciados y flechas corregidas: {filename}")
+    print(f"Diagrama AS-IS de Pagos generado exitosamente en: {filename}")
     webbrowser.open(f"file://{os.path.abspath(filename)}")
 
 if __name__ == "__main__":
-    generar_diagrama_promociones_oficial()
+    generar_diagrama_pagos_asis()
