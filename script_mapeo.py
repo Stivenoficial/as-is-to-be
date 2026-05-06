@@ -1,15 +1,8 @@
 import webbrowser
 import os
 
-def get_html_content():
-    """Generates the TO-BE Swimlane diagram exactly matching the AS-IS format."""
+def get_common_styles():
     return """
-    <!DOCTYPE html>
-    <html lang="es">
-    <head>
-        <meta charset="UTF-8">
-        <title>TO-BE Diagrama de Procesos</title>
-        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
         <style>
             body {
                 font-family: 'Inter', sans-serif;
@@ -17,7 +10,8 @@ def get_html_content():
                 margin: 0;
                 padding: 40px;
                 display: flex;
-                justify-content: center;
+                flex-direction: column;
+                align-items: center;
             }
 
             .canvas {
@@ -31,9 +25,9 @@ def get_html_content():
                 position: relative;
                 min-width: 1400px;
                 box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+                margin-top: 20px;
             }
 
-            /* Left Main Label */
             .main-label {
                 writing-mode: vertical-rl;
                 transform: rotate(180deg);
@@ -59,7 +53,6 @@ def get_html_content():
                 flex-grow: 1;
             }
 
-            /* Lane Backgrounds & Borders */
             .lane-line {
                 grid-column: 1 / -1;
                 border-bottom: 3px solid #1a1a1a;
@@ -69,7 +62,6 @@ def get_html_content():
             .lane-line:nth-child(2) { grid-row: 2; }
             .lane-line:nth-child(3) { grid-row: 3; border-bottom: none; }
 
-            /* Headers */
             .header {
                 grid-column: 1;
                 background: white;
@@ -94,7 +86,6 @@ def get_html_content():
                 margin-top: 5px;
             }
 
-            /* Cells for Nodes */
             .cell {
                 display: flex;
                 align-items: center;
@@ -103,7 +94,6 @@ def get_html_content():
                 z-index: 10;
             }
 
-            /* Nodes Style */
             .node {
                 width: 140px;
                 min-height: 70px;
@@ -130,12 +120,29 @@ def get_html_content():
                 color: #444;
             }
 
+            .node-pain {
+                background-color: #fff4e5;
+                border-color: #ff9800;
+                color: #e65100;
+                border-style: dashed;
+            }
+            .node-pain::after {
+                content: "⚠️ PUNTO DE DOLOR";
+                position: absolute;
+                top: -10px;
+                right: -10px;
+                background: #ff9800;
+                color: white;
+                font-size: 0.6rem;
+                padding: 2px 6px;
+                border-radius: 4px;
+                font-weight: 700;
+                z-index: 20;
+            }
+
             .node-exception {
                 background-color: #ffeaea;
                 border-color: #d32f2f;
-                color: #d32f2f;
-            }
-            .node-exception .node-desc {
                 color: #d32f2f;
             }
 
@@ -167,7 +174,6 @@ def get_html_content():
                 justify-content: center;
             }
 
-            /* Decision Diamond */
             .diamond-container {
                 display: flex;
                 align-items: center;
@@ -197,7 +203,6 @@ def get_html_content():
                 width: 70px;
             }
 
-            /* SVG Arrows */
             .svg-overlay {
                 position: absolute;
                 top: 0;
@@ -233,14 +238,95 @@ def get_html_content():
             .label-yes { fill: #2ecc71; }
             .label-no { fill: #e74c3c; }
 
+            .btn-download {
+                padding: 12px 24px;
+                font-size: 16px;
+                cursor: pointer;
+                background: #2c3e50;
+                color: white;
+                border: none;
+                border-radius: 8px;
+                font-family: 'Inter', sans-serif;
+                font-weight: bold;
+                box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+                transition: transform 0.2s, background 0.2s;
+                margin-bottom: 20px;
+            }
+
+            .btn-download:hover {
+                background: #34495e;
+                transform: translateY(-2px);
+            }
         </style>
+    """
+
+def get_html_header(title):
+    return f"""
+    <!DOCTYPE html>
+    <html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <title>{title}</title>
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+        {get_common_styles()}
     </head>
     <body>
-        <div style="text-align: center; margin-bottom: 20px; width: 100%; position: absolute; top: 10px; left: 0; z-index: 1000;">
-            <button onclick="descargarImagen()" style="padding: 10px 20px; font-size: 16px; cursor: pointer; background: #2c3e50; color: white; border: none; border-radius: 5px; font-family: 'Inter', sans-serif; font-weight: bold; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">Descargar como Imagen</button>
-        </div>
-        <div class="canvas" id="diagrama" style="margin-top: 40px;">
-            <div class="main-label">GESTIÓN DE INSCRIPCIÓN (TO-BE)</div>
+    """
+
+def get_html_footer(filename):
+    return f"""
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+        <script>
+            function descargarImagen() {{
+                const element = document.getElementById('diagrama');
+                if (!element) {{
+                    console.error('No se encontró el elemento #diagrama');
+                    alert('Error: No se encontró el diagrama para exportar.');
+                    return;
+                }}
+
+                console.log('Iniciando captura de imagen...');
+                const btn = document.querySelector('.btn-download');
+                btn.innerText = 'Generando...';
+                btn.style.opacity = '0.5';
+
+                html2canvas(element, {{ 
+                    scale: 3, 
+                    useCORS: true, 
+                    allowTaint: true,
+                    backgroundColor: "#ffffff",
+                    logging: true
+                }}).then(canvas => {{
+                    try {{
+                        const link = document.createElement('a');
+                        link.download = '{filename.replace(".html", ".png")}';
+                        link.href = canvas.toDataURL('image/png', 1.0);
+                        document.body.appendChild(link);
+                        link.click();
+                        document.body.removeChild(link);
+                        console.log('Descarga iniciada exitosamente.');
+                    }} catch (err) {{
+                        console.error('Error al generar el enlace de descarga:', err);
+                        alert('Hubo un error al procesar la descarga. Revisa la consola del navegador.');
+                    }}
+                }}).catch(err => {{
+                    console.error('Error en html2canvas:', err);
+                    alert('Error técnico al generar la imagen. Verifica si tienes conexión a internet para cargar la librería.');
+                }}).finally(() => {{
+                    btn.innerText = 'Descargar como Imagen';
+                    btn.style.opacity = '1';
+                }});
+            }}
+        </script>
+    </body>
+    </html>
+    """
+
+def get_arancel_asis_content():
+    return """
+        <button class="btn-download" onclick="descargarImagen()">Descargar como Imagen</button>
+        <div class="canvas" id="diagrama">
+            <div class="main-label">ARANCEL AS-IS</div>
             
             <div class="grid-container">
                 <!-- Lane Lines -->
@@ -249,100 +335,173 @@ def get_html_content():
                 <div class="lane-line"></div>
 
                 <!-- Headers -->
-                <div class="header header-1">Operador de Ventas<br><span>(Supervisor/Excepciones)</span></div>
-                <div class="header header-2">vTiger CRM / BPMS<br><span>(Automatizador)</span></div>
-                <div class="header header-3">Notificación<br><span>(Email/Cron)</span></div>
+                <div class="header header-1">Operador Administrativo<br><span>(Manual)</span></div>
+                <div class="header header-2">Sistema CRM (vTiger)<br><span>(Soporte de Datos)</span></div>
+                <div class="header header-3">Salida / Notificación<br><span>(Manual/Email)</span></div>
 
                 <!-- Elements -->
                 <!-- Col 2: Start -->
-                <div class="cell" style="grid-column: 2; grid-row: 2;">
+                <div class="cell" style="grid-column: 2; grid-row: 1;">
                     <div class="node-start">INICIO</div>
                 </div>
 
-                <!-- Col 3: Detectar Pago -->
-                <div class="cell" style="grid-column: 3; grid-row: 2;">
+                <!-- Col 3: Filtrar -->
+                <div class="cell" style="grid-column: 3; grid-row: 1;">
                     <div class="node">
-                        <div class="node-title">1. Detectar Pago</div>
-                        <div class="node-desc">Extraer correo API</div>
+                        <div class="node-title">1. Filtrar Registros</div>
+                        <div class="node-desc">Payment Record: "No Procesado" y "Arancel"</div>
                     </div>
                 </div>
 
-                <!-- Col 4: Buscar Contacto -->
+                <!-- Col 4: Validar -->
+                <div class="cell" style="grid-column: 4; grid-row: 1;">
+                    <div class="node">
+                        <div class="node-title">2. Validar Soporte</div>
+                        <div class="node-desc">Extraer ID Estudiante manualmente</div>
+                    </div>
+                </div>
+
+                <!-- Col 5: Abrir Perfil -->
+                <div class="cell" style="grid-column: 5; grid-row: 2;">
+                    <div class="node">
+                        <div class="node-title">3. Abrir Perfil</div>
+                        <div class="node-desc">Generar factura desde Contacto</div>
+                    </div>
+                </div>
+
+                <!-- Col 6: Oportunidad -->
+                <div class="cell" style="grid-column: 6; grid-row: 1;">
+                    <div class="node node-pain">
+                        <div class="node-title">4. Crear Oportunidad</div>
+                        <div class="node-desc">Cerrada-Ganada (Creación manual)</div>
+                    </div>
+                </div>
+
+                <!-- Col 7: Borrar Cláusulas -->
+                <div class="cell" style="grid-column: 7; grid-row: 1;">
+                    <div class="node node-pain">
+                        <div class="node-title">5. Intervención Manual</div>
+                        <div class="node-desc">Borrar cláusula "Diplomados" en Condiciones</div>
+                    </div>
+                </div>
+
+                <!-- Col 8: Guardar -->
+                <div class="cell" style="grid-column: 8; grid-row: 2;">
+                    <div class="node">
+                        <div class="node-title">6. Indexar y Guardar</div>
+                        <div class="node-desc">Item "ARANCEL DE EGRESO" y montos</div>
+                    </div>
+                </div>
+
+                <!-- Col 9: Fin -->
+                <div class="cell" style="grid-column: 9; grid-row: 2;">
+                    <div class="node-end">FIN</div>
+                </div>
+
+                <svg class="svg-overlay" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <marker id="arrowhead" markerWidth="6" markerHeight="4" refX="5" refY="2" orient="auto">
+                            <polygon points="0 0, 6 2, 0 4" fill="#1a1a1a" />
+                        </marker>
+                    </defs>
+
+                    <!-- Path Logic -->
+                    <path d="M 205 80 L 230 80" /> <!-- Start to 1 -->
+                    <path d="M 390 80 L 410 80" /> <!-- 1 to 2 -->
+                    <path d="M 570 80 L 590 80 L 590 240 L 610 240" /> <!-- 2 to 3 -->
+                    <path d="M 750 240 L 770 240 L 770 80 L 800 80" /> <!-- 3 to 4 -->
+                    <path d="M 940 80 L 980 80" /> <!-- 4 to 5 -->
+                    <path d="M 1120 80 L 1140 80 L 1140 240 L 1160 240" /> <!-- 5 to 6 -->
+                    <path d="M 1300 240 L 1330 240" /> <!-- 6 to End -->
+                </svg>
+            </div>
+        </div>
+    """
+
+def get_arancel_tobe_content():
+    return """
+        <button class="btn-download" onclick="descargarImagen()">Descargar como Imagen</button>
+        <div class="canvas" id="diagrama">
+            <div class="main-label">ARANCEL TO-BE</div>
+            
+            <div class="grid-container">
+                <!-- Lane Lines -->
+                <div class="lane-line"></div>
+                <div class="lane-line"></div>
+                <div class="lane-line"></div>
+
+                <!-- Headers -->
+                <div class="header header-1">Operador Administrativo<br><span>(Supervisor / Validador)</span></div>
+                <div class="header header-2">Workflow Engine (vTiger)<br><span>(Automatizador)</span></div>
+                <div class="header header-3">Sistema de Notificaciones<br><span>(Comunicador)</span></div>
+
+                <!-- Elements -->
+                <!-- Col 2: Start -->
+                <div class="cell" style="grid-column: 2; grid-row: 1;">
+                    <div class="node-start">INICIO</div>
+                </div>
+
+                <!-- Col 3: Validar Soporte -->
+                <div class="cell" style="grid-column: 3; grid-row: 1;">
+                    <div class="node">
+                        <div class="node-title">1. Validar Soporte</div>
+                        <div class="node-desc">Marcar como "Verificado" (User Task)</div>
+                    </div>
+                </div>
+
+                <!-- Col 4: Workflow Oportunidad -->
                 <div class="cell" style="grid-column: 4; grid-row: 2;">
                     <div class="node">
-                        <div class="node-title">2. Buscar Contacto</div>
-                        <div class="node-desc">Cruce automático</div>
+                        <div class="node-title">2. Crear Oportunidad</div>
+                        <div class="node-desc">Fase Cerrada-Ganada (Service Task)</div>
                     </div>
                 </div>
 
-                <!-- Col 5: Validar Soporte -->
-                <div class="cell" style="grid-column: 5; grid-row: 1;">
+                <!-- Col 5: Generar Factura -->
+                <div class="cell" style="grid-column: 5; grid-row: 2;">
                     <div class="node">
-                        <div class="node-title">3. Validar Soporte</div>
-                        <div class="node-desc">Verificar monto adjunto</div>
+                        <div class="node-title">3. Generar Factura</div>
+                        <div class="node-desc">Vinculada automáticamente (Service Task)</div>
                     </div>
                 </div>
 
-                <!-- Col 6: Gateway -->
+                <!-- Col 6: Script Limpieza -->
                 <div class="cell" style="grid-column: 6; grid-row: 2;">
+                    <div class="node" style="border: 2px solid #2c3e50; background: #f8f9fa;">
+                        <div class="node-title">4. Script de Limpieza</div>
+                        <div class="node-desc">Reemplazo de Cláusulas (Script Task)</div>
+                    </div>
+                </div>
+
+                <!-- Col 7: Gateway Integridad -->
+                <div class="cell" style="grid-column: 7; grid-row: 2;">
                     <div class="diamond-container">
                         <div class="diamond">
-                            <span>¿Monto<br>Válido?</span>
+                            <span>¿Datos<br>Íntegros?</span>
                         </div>
-                    </div>
-                </div>
-
-                <!-- Col 7: Crear Factura / Excepción -->
-                <div class="cell" style="grid-column: 7; grid-row: 2;">
-                    <div class="node">
-                        <div class="node-title">4. Crear Factura</div>
-                        <div class="node-desc">Generación automática</div>
                     </div>
                 </div>
                 
                 <div class="cell" style="grid-column: 7; grid-row: 1;">
                     <div class="node node-exception">
                         <div class="node-title">EXCEPCIÓN:</div>
-                        <div class="node-desc">Revisión Manual de<br>Inconsistencia</div>
+                        <div class="node-desc">Revisión por Error en Montos</div>
                     </div>
                 </div>
 
-                <!-- Col 8: Crear Oportunidad -->
-                <div class="cell" style="grid-column: 8; grid-row: 2;">
+                <!-- Col 8: Enviar PDF -->
+                <div class="cell" style="grid-column: 8; grid-row: 3;">
                     <div class="node">
-                        <div class="node-title">5. Crear Oportunidad</div>
-                        <div class="node-desc">Cerrada-Ganada</div>
+                        <div class="node-title">5. Enviar PDF</div>
+                        <div class="node-desc">Notificación automática (Service Task)</div>
                     </div>
                 </div>
 
-                <!-- Col 9: Enviar Comprobante -->
+                <!-- Col 9: End -->
                 <div class="cell" style="grid-column: 9; grid-row: 3;">
-                    <div class="node">
-                        <div class="node-title">6. Notificar</div>
-                        <div class="node-desc">Enviar comprobante</div>
-                    </div>
-                </div>
-
-                <!-- Col 10: End -->
-                <div class="cell" style="grid-column: 10; grid-row: 3;">
                     <div class="node-end">FIN</div>
                 </div>
 
-                <!-- SVG Overlays for arrows -->
-                <!-- 
-                    Row Centers: R1=80, R2=240, R3=400
-                    Col Centers (approx): 
-                    C1=70 (140 width)
-                    C2=180 (140+40) -> Left=140, Right=220. Center=180.
-                    C3=310 (220+90) -> Right=400
-                    C4=490 (400+90) -> Right=580
-                    C5=670 (580+90) -> Right=760
-                    C6=850 (760+90) -> Right=940
-                    C7=1030 (940+90) -> Right=1120
-                    C8=1210 (1120+90) -> Right=1300
-                    C9=1390 (1300+90) -> Right=1480
-                    C10=1530 (1480+50)
-                -->
                 <svg class="svg-overlay" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
                     <defs>
                         <marker id="arrowhead" markerWidth="6" markerHeight="4" refX="5" refY="2" orient="auto">
@@ -356,65 +515,156 @@ def get_html_content():
                         </marker>
                     </defs>
 
-                    <!-- Start to Node 1 -->
-                    <path d="M 205 240 L 230 240" />
+                    <!-- Path Logic -->
+                    <path d="M 205 80 L 230 80" /> <!-- Start to 1 -->
+                    <path d="M 390 80 L 410 80 L 410 240 L 430 240" /> <!-- 1 to 2 -->
+                    <path d="M 570 240 L 590 240" /> <!-- 2 to 3 -->
+                    <path d="M 750 240 L 770 240" /> <!-- 3 to 4 -->
+                    <path d="M 930 240 L 980 240" /> <!-- 4 to Gateway -->
                     
-                    <!-- Node 1 to Node 2 -->
-                    <path d="M 390 240 L 410 240" />
+                    <path class="path-yes" d="M 1030 290 L 1030 400 L 1110 400" /> <!-- Yes to 5 -->
+                    <text x="1040" y="340" class="label-path label-yes">SÍ</text>
 
-                    <!-- Node 2 to Node 3 (Up to R1) -->
-                    <path d="M 570 240 L 590 240 L 590 80 L 610 80" />
+                    <path class="path-no" d="M 1030 190 L 1030 80 L 1110 80" /> <!-- No to Exc -->
+                    <text x="1040" y="140" class="label-path label-no">NO</text>
 
-                    <!-- Node 3 to Gateway (Down to R2) -->
-                    <path d="M 750 80 L 770 80 L 770 240 L 800 240" />
-
-                    <!-- Gateway to Node 4 (SÍ) -->
-                    <path class="path-yes" d="M 900 240 L 950 240" />
-                    <text x="915" y="230" class="label-path label-yes">SÍ</text>
-
-                    <!-- Gateway to Exception (NO) -->
-                    <path class="path-no" d="M 850 190 L 850 80 L 950 80" />
-                    <text x="860" y="130" class="label-path label-no">NO</text>
-
-                    <!-- Node 4 to Node 5 -->
-                    <path d="M 1110 240 L 1130 240" />
-
-                    <!-- Node 5 to Node 6 (Down to R3) -->
-                    <path d="M 1290 240 L 1310 240 L 1310 400 L 1330 400" />
-
-                    <!-- Node 6 to End -->
-                    <path d="M 1470 400 L 1500 400" />
+                    <path d="M 1250 400 L 1330 400" /> <!-- 5 to End -->
                 </svg>
             </div>
         </div>
-
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-        <script>
-            function descargarImagen() {
-                const element = document.getElementById('diagrama');
-                html2canvas(element, { scale: 2 }).then(canvas => {
-                    const link = document.createElement('a');
-                    link.download = 'Diagrama_Inscripcion_TO-BE.png';
-                    link.href = canvas.toDataURL('image/png');
-                    link.click();
-                });
-            }
-        </script>
-    </body>
-    </html>
     """
 
-def generar_diagrama_final():
-    """Generates the HTML file and opens it in the browser."""
-    html = get_html_content()
-    filename = "diagrama_tobe_formato_original.html"
-    abs_path = os.path.abspath(filename)
+def get_promociones_asis_content():
+    return """
+        <button class="btn-download" onclick="descargarImagen()">Descargar como Imagen</button>
+        <div class="canvas" id="diagrama">
+            <div class="main-label">PROMO AS-IS</div>
+            
+            <div class="grid-container">
+                <!-- Lane Lines -->
+                <div class="lane-line"></div>
+                <div class="lane-line"></div>
+                <div class="lane-line"></div>
+
+                <!-- Headers -->
+                <div class="header header-1">Operador Administrativo<br><span>(Manual)</span></div>
+                <div class="header header-2">vTiger CRM<br><span>(Soporte de Datos)</span></div>
+                <div class="header header-3">Salida / Control<br><span>(Manual)</span></div>
+
+                <!-- Elements -->
+                <!-- Col 2: Start -->
+                <div class="cell" style="grid-column: 2; grid-row: 1;">
+                    <div class="node-start">INICIO</div>
+                </div>
+
+                <!-- Col 3: Filtrar -->
+                <div class="cell" style="grid-column: 3; grid-row: 1;">
+                    <div class="node">
+                        <div class="node-title">1. Filtrar Concepto</div>
+                        <div class="node-desc">Localizar "Promo 2x100" en Payment Record</div>
+                    </div>
+                </div>
+
+                <!-- Col 4: Verificar -->
+                <div class="cell" style="grid-column: 4; grid-row: 1;">
+                    <div class="node">
+                        <div class="node-title">2. Verificar Datos</div>
+                        <div class="node-desc">Cruce de Estudiante 1 y 2 en Fichas</div>
+                    </div>
+                </div>
+
+                <!-- Col 5: Gateway 1 -->
+                <div class="cell" style="grid-column: 5; grid-row: 1;">
+                    <div class="diamond-container">
+                        <div class="diamond">
+                            <span>¿Datos<br>Correctos?</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Col 6: Crear Factura -->
+                <div class="cell" style="grid-column: 6; grid-row: 1;">
+                    <div class="node node-pain">
+                        <div class="node-title">3. Crear Factura</div>
+                        <div class="node-desc">Nomenclatura manual de asunto y oportunidad</div>
+                    </div>
+                </div>
+
+                <!-- Col 7: Agregar Items -->
+                <div class="cell" style="grid-column: 7; grid-row: 2;">
+                    <div class="node">
+                        <div class="node-title">4. Agregar Productos</div>
+                        <div class="node-desc">Diplomado 1 y 2 en Detalles Elemento</div>
+                    </div>
+                </div>
+
+                <!-- Col 8: Aplicar Descuento -->
+                <div class="cell" style="grid-column: 8; grid-row: 1;">
+                    <div class="node node-pain">
+                        <div class="node-title">5. Aplicar Descuento</div>
+                        <div class="node-desc">Carga manual de 90% a cada ítem</div>
+                    </div>
+                </div>
+
+                <!-- Col 9: Gateway 2 -->
+                <div class="cell" style="grid-column: 9; grid-row: 1;">
+                    <div class="diamond-container">
+                        <div class="diamond" style="border-color: #ff9800; background: #fff4e5;">
+                            <span style="color: #e65100;">¿Total exacto<br>$100.00?</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Col 10: Fin -->
+                <div class="cell" style="grid-column: 10; grid-row: 2;">
+                    <div class="node-end">FIN</div>
+                </div>
+
+                <svg class="svg-overlay" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <marker id="arrowhead" markerWidth="6" markerHeight="4" refX="5" refY="2" orient="auto">
+                            <polygon points="0 0, 6 2, 0 4" fill="#1a1a1a" />
+                        </marker>
+                    </defs>
+
+                    <!-- Path Logic -->
+                    <path d="M 205 80 L 230 80" /> <!-- Start to 1 -->
+                    <path d="M 390 80 L 410 80" /> <!-- 1 to 2 -->
+                    <path d="M 570 80 L 590 80" /> <!-- 2 to G1 -->
+                    
+                    <path d="M 760 80 L 800 80" /> <!-- G1 to 3 -->
+                    <path d="M 940 80 L 960 80 L 960 240 L 980 240" /> <!-- 3 to 4 -->
+                    <path d="M 1120 240 L 1140 240 L 1140 80 L 1160 80" /> <!-- 4 to 5 -->
+                    <path d="M 1300 80 L 1340 80" /> <!-- 5 to G2 -->
+                    <path d="M 1485 80 L 1510 80 L 1510 240 L 1520 240" /> <!-- G2 to 6 -->
+                </svg>
+            </div>
+        </div>
+    """
+
+def generar_diagramas_promociones():
+    # AS-IS
+    html_asis = get_html_header("AS-IS Promociones") + get_promociones_asis_content() + get_html_footer("diagrama_promociones_asis_profesional.html")
+    with open("diagrama_promociones_asis_profesional.html", "w", encoding="utf-8") as f:
+        f.write(html_asis)
     
-    with open(filename, "w", encoding="utf-8") as f:
-        f.write(html)
+    print("Diagrama AS-IS de Promociones generado.")
+    webbrowser.open(f"file://{os.path.abspath('diagrama_promociones_asis_profesional.html')}")
+
+def generar_diagramas_arancel():
+    # AS-IS
+    html_asis = get_html_header("AS-IS Arancel") + get_arancel_asis_content() + get_html_footer("diagrama_arancel_asis_profesional.html")
+    with open("diagrama_arancel_asis_profesional.html", "w", encoding="utf-8") as f:
+        f.write(html_asis)
+    
+    # TO-BE
+    html_tobe = get_html_header("TO-BE Arancel") + get_arancel_tobe_content() + get_html_footer("diagrama_arancel_tobe_profesional.html")
+    with open("diagrama_arancel_tobe_profesional.html", "w", encoding="utf-8") as f:
+        f.write(html_tobe)
         
-    print(f"Diagrama TO-BE generado con el formato solicitado: {filename}")
-    webbrowser.open(f"file://{abs_path}")
+    print("Diagramas de Arancel (AS-IS y TO-BE) generados.")
+    webbrowser.open(f"file://{os.path.abspath('diagrama_arancel_tobe_profesional.html')}")
 
 if __name__ == "__main__":
-    generar_diagrama_final()
+    # Generamos el TO-BE de Arancel por petición del usuario
+    generar_diagramas_arancel()
