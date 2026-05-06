@@ -540,16 +540,14 @@ def get_promociones_asis_content():
         <div class="canvas" id="diagrama">
             <div class="main-label">PROMO AS-IS</div>
             
-            <div class="grid-container">
+            <div class="grid-container" style="grid-template-rows: 160px 160px;">
                 <!-- Lane Lines -->
-                <div class="lane-line"></div>
-                <div class="lane-line"></div>
-                <div class="lane-line"></div>
+                <div class="lane-line" style="grid-row: 1;"></div>
+                <div class="lane-line" style="grid-row: 2; border-bottom: none;"></div>
 
                 <!-- Headers -->
-                <div class="header header-1">Operador Administrativo<br><span>(Manual)</span></div>
-                <div class="header header-2">vTiger CRM<br><span>(Soporte de Datos)</span></div>
-                <div class="header header-3">Salida / Control<br><span>(Manual)</span></div>
+                <div class="header header-1" style="grid-row: 1;">Operador Administrativo<br><span>(Manual)</span></div>
+                <div class="header header-2" style="grid-row: 2;">vTiger CRM<br><span>(Soporte de Datos)</span></div>
 
                 <!-- Elements -->
                 <!-- Col 2: Start -->
@@ -627,16 +625,16 @@ def get_promociones_asis_content():
                         </marker>
                     </defs>
 
-                    <!-- Path Logic -->
-                    <path d="M 205 80 L 230 80" /> <!-- Start to 1 -->
-                    <path d="M 390 80 L 410 80" /> <!-- 1 to 2 -->
-                    <path d="M 570 80 L 590 80" /> <!-- 2 to G1 -->
+                    <!-- Path Logic (Grid: Header 140, C2 80, C3-C9 180, C10 100) -->
+                    <path d="M 205 80 L 240 80" /> <!-- Start to 1 -->
+                    <path d="M 380 80 L 420 80" /> <!-- 1 to 2 -->
+                    <path d="M 560 80 L 637 80" /> <!-- 2 to G1 -->
                     
-                    <path d="M 760 80 L 800 80" /> <!-- G1 to 3 -->
-                    <path d="M 940 80 L 960 80 L 960 240 L 980 240" /> <!-- 3 to 4 -->
-                    <path d="M 1120 240 L 1140 240 L 1140 80 L 1160 80" /> <!-- 4 to 5 -->
-                    <path d="M 1300 80 L 1340 80" /> <!-- 5 to G2 -->
-                    <path d="M 1485 80 L 1510 80 L 1510 240 L 1520 240" /> <!-- G2 to 6 -->
+                    <path d="M 703 80 L 780 80" /> <!-- G1 to 3 -->
+                    <path d="M 920 80 L 940 80 L 940 240 L 960 240" /> <!-- 3 to 4 -->
+                    <path d="M 1100 240 L 1120 240 L 1120 80 L 1140 80" /> <!-- 4 to 5 -->
+                    <path d="M 1280 80 L 1357 80" /> <!-- 5 to G2 -->
+                    <path d="M 1423 80 L 1530 80 L 1530 215" /> <!-- G2 to End (C10 center is 1530) -->
                 </svg>
             </div>
         </div>
@@ -666,5 +664,5 @@ def generar_diagramas_arancel():
     webbrowser.open(f"file://{os.path.abspath('diagrama_arancel_tobe_profesional.html')}")
 
 if __name__ == "__main__":
-    # Generamos el TO-BE de Arancel por petición del usuario
-    generar_diagramas_arancel()
+    # Generamos el AS-IS de Promociones para validación inicial
+    generar_diagramas_promociones()

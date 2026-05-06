@@ -1,11 +1,8 @@
+import webbrowser
+import os
 
-    <!DOCTYPE html>
-    <html lang="es">
-    <head>
-        <meta charset="UTF-8">
-        <title>AS-IS Promociones</title>
-        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-        
+def get_common_styles():
+    return """
         <style>
             body {
                 font-family: 'Inter', sans-serif;
@@ -26,7 +23,8 @@
                 border: 3px solid #1a1a1a;
                 display: flex;
                 position: relative;
-                min-width: 1400px;
+                /* Ampliado para albergar cómodamente el nuevo espaciado */
+                min-width: 2200px;
                 box-shadow: 0 10px 30px rgba(0,0,0,0.1);
                 margin-top: 20px;
             }
@@ -50,8 +48,9 @@
 
             .grid-container {
                 display: grid;
-                grid-template-columns: 140px 80px repeat(7, 180px) 100px;
-                grid-template-rows: 160px 160px 160px;
+                /* Col 1: 140px | Col 2: 100px | Cols 3 a 11: 200px (Espacio amplio) | Col 12: 120px = Total 2160px */
+                grid-template-columns: 140px 100px repeat(9, 200px) 120px;
+                grid-template-rows: 160px 160px;
                 position: relative;
                 flex-grow: 1;
             }
@@ -62,8 +61,7 @@
                 z-index: 1;
             }
             .lane-line:nth-child(1) { grid-row: 1; }
-            .lane-line:nth-child(2) { grid-row: 2; }
-            .lane-line:nth-child(3) { grid-row: 3; border-bottom: none; }
+            .lane-line:nth-child(2) { grid-row: 2; border-bottom: none; }
 
             .header {
                 grid-column: 1;
@@ -81,7 +79,6 @@
             }
             .header-1 { grid-row: 1; }
             .header-2 { grid-row: 2; }
-            .header-3 { grid-row: 3; }
             
             .header span {
                 font-weight: 400;
@@ -111,6 +108,7 @@
                 padding: 10px;
                 box-shadow: 2px 2px 4px rgba(0,0,0,0.05);
                 position: relative;
+                z-index: 10;
             }
 
             .node-title {
@@ -161,6 +159,7 @@
                 display: flex;
                 align-items: center;
                 justify-content: center;
+                z-index: 10;
             }
 
             .node-end {
@@ -175,6 +174,7 @@
                 display: flex;
                 align-items: center;
                 justify-content: center;
+                z-index: 10;
             }
 
             .diamond-container {
@@ -182,6 +182,7 @@
                 align-items: center;
                 justify-content: center;
                 position: relative;
+                z-index: 10;
             }
 
             .diamond {
@@ -212,7 +213,8 @@
                 left: 0;
                 width: 100%;
                 height: 100%;
-                z-index: 5;
+                /* Subimos el Z-index para asegurar que las flechas pisen los bordes */
+                z-index: 15;
                 pointer-events: none;
             }
             
@@ -261,24 +263,67 @@
                 transform: translateY(-2px);
             }
         </style>
-    
+    """
+
+def get_html_header(title):
+    return f"""
+    <!DOCTYPE html>
+    <html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <title>{title}</title>
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+        {get_common_styles()}
     </head>
     <body>
-    
+    """
+
+def get_html_footer(filename):
+    return f"""
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+        <script>
+            function descargarImagen() {{
+                const btn = document.querySelector('.btn-download');
+                btn.innerText = 'Generando...';
+                btn.style.opacity = '0.5';
+
+                html2canvas(document.getElementById('diagrama'), {{ 
+                    scale: 3, 
+                    backgroundColor: "#ffffff"
+                }}).then(canvas => {{
+                    const link = document.createElement('a');
+                    link.download = '{filename.replace(".html", ".png")}';
+                    link.href = canvas.toDataURL('image/png', 1.0);
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                }}).finally(() => {{
+                    btn.innerText = 'Descargar como Imagen';
+                    btn.style.opacity = '1';
+                }});
+            }}
+        </script>
+    </body>
+    </html>
+    """
+
+def get_promociones_asis_content():
+    return """
         <button class="btn-download" onclick="descargarImagen()">Descargar como Imagen</button>
         <div class="canvas" id="diagrama">
             <div class="main-label">PROMO AS-IS</div>
             
-            <div class="grid-container" style="grid-template-rows: 160px 160px;">
-                <!-- Lane Lines -->
-                <div class="lane-line" style="grid-row: 1;"></div>
-                <div class="lane-line" style="grid-row: 2; border-bottom: none;"></div>
+            <div class="grid-container">
+                <!-- Líneas de Carril -->
+                <div class="lane-line"></div>
+                <div class="lane-line"></div>
 
-                <!-- Headers -->
-                <div class="header header-1" style="grid-row: 1;">Operador Administrativo<br><span>(Manual)</span></div>
-                <div class="header header-2" style="grid-row: 2;">vTiger CRM<br><span>(Soporte de Datos)</span></div>
+                <!-- Cabeceras -->
+                <div class="header header-1">Operador Administrativo<br><span>(Ejecutor / Manual)</span></div>
+                <div class="header header-2">vTiger CRM<br><span>(Soporte / Motor Cálculo)</span></div>
 
-                <!-- Elements -->
+                <!-- Nodos -->
+                
                 <!-- Col 2: Start -->
                 <div class="cell" style="grid-column: 2; grid-row: 1;">
                     <div class="node-start">INICIO</div>
@@ -287,8 +332,8 @@
                 <!-- Col 3: Filtrar -->
                 <div class="cell" style="grid-column: 3; grid-row: 1;">
                     <div class="node">
-                        <div class="node-title">1. Filtrar Concepto</div>
-                        <div class="node-desc">Localizar "Promo 2x100" en Payment Record</div>
+                        <div class="node-title">1. Filtrar Registro</div>
+                        <div class="node-desc">Identificar pago "Promo 2x100"</div>
                     </div>
                 </div>
 
@@ -296,11 +341,11 @@
                 <div class="cell" style="grid-column: 4; grid-row: 1;">
                     <div class="node">
                         <div class="node-title">2. Verificar Datos</div>
-                        <div class="node-desc">Cruce de Estudiante 1 y 2 en Fichas</div>
+                        <div class="node-desc">Cruce Estudiante 1 y 2 en Fichas</div>
                     </div>
                 </div>
 
-                <!-- Col 5: Gateway 1 -->
+                <!-- Col 5: GW1 Datos Correctos -->
                 <div class="cell" style="grid-column: 5; grid-row: 1;">
                     <div class="diamond-container">
                         <div class="diamond">
@@ -309,108 +354,137 @@
                     </div>
                 </div>
 
-                <!-- Col 6: Crear Factura -->
+                <!-- Col 5 Row 2: Excepcion Corrección -->
+                <div class="cell" style="grid-column: 5; grid-row: 2;">
+                    <div class="node node-exception">
+                        <div class="node-title">EXCEPCIÓN</div>
+                        <div class="node-desc">Detener y corregir en Fichas CRM</div>
+                    </div>
+                </div>
+
+                <!-- Col 6: Crear Factura (PAIN) -->
                 <div class="cell" style="grid-column: 6; grid-row: 1;">
                     <div class="node node-pain">
                         <div class="node-title">3. Crear Factura</div>
-                        <div class="node-desc">Nomenclatura manual de asunto y oportunidad</div>
+                        <div class="node-desc">Asunto y Oportunidad creados a mano</div>
                     </div>
                 </div>
 
-                <!-- Col 7: Agregar Items -->
-                <div class="cell" style="grid-column: 7; grid-row: 2;">
+                <!-- Col 7: Agregar Prod -->
+                <div class="cell" style="grid-column: 7; grid-row: 1;">
                     <div class="node">
-                        <div class="node-title">4. Agregar Productos</div>
-                        <div class="node-desc">Diplomado 1 y 2 en Detalles Elemento</div>
+                        <div class="node-title">4. Ingresar Montos</div>
+                        <div class="node-desc">Diplomado 1, 2 y estado "Pagada"</div>
                     </div>
                 </div>
 
-                <!-- Col 8: Aplicar Descuento -->
+                <!-- Col 8: Aplicar Descuento (PAIN) -->
                 <div class="cell" style="grid-column: 8; grid-row: 1;">
                     <div class="node node-pain">
-                        <div class="node-title">5. Aplicar Descuento</div>
+                        <div class="node-title">5. Aplicar Desc.</div>
                         <div class="node-desc">Carga manual de 90% a cada ítem</div>
                     </div>
                 </div>
 
-                <!-- Col 9: Gateway 2 -->
-                <div class="cell" style="grid-column: 9; grid-row: 1;">
+                <!-- Col 9 Row 2: CRM Calculo -->
+                <div class="cell" style="grid-column: 9; grid-row: 2;">
+                    <div class="node" style="border: 2px solid #2c3e50; background: #f8f9fa;">
+                        <div class="node-title">Motor vTiger</div>
+                        <div class="node-desc">Cálculo de "Total Elementos"</div>
+                    </div>
+                </div>
+
+                <!-- Col 10: GW2 Balance Exacto (PAIN Visual) -->
+                <div class="cell" style="grid-column: 10; grid-row: 1;">
                     <div class="diamond-container">
-                        <div class="diamond" style="border-color: #ff9800; background: #fff4e5;">
-                            <span style="color: #e65100;">¿Total exacto<br>$100.00?</span>
+                        <div class="diamond" style="border-color: #ff9800; background: #fff4e5; border-style: dashed;">
+                            <span style="color: #e65100;">¿Total<br>Exacto $100?</span>
                         </div>
                     </div>
                 </div>
 
-                <!-- Col 10: Fin -->
-                <div class="cell" style="grid-column: 10; grid-row: 2;">
+                <!-- Col 11: Guardar -->
+                <div class="cell" style="grid-column: 11; grid-row: 1;">
+                    <div class="node">
+                        <div class="node-title">6. Guardar</div>
+                        <div class="node-desc">Registro de la factura finalizada</div>
+                    </div>
+                </div>
+
+                <!-- Col 12: Fin -->
+                <div class="cell" style="grid-column: 12; grid-row: 1;">
                     <div class="node-end">FIN</div>
                 </div>
 
+                <!-- Capa de SVG con Flechas -->
                 <svg class="svg-overlay" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
                     <defs>
                         <marker id="arrowhead" markerWidth="6" markerHeight="4" refX="5" refY="2" orient="auto">
                             <polygon points="0 0, 6 2, 0 4" fill="#1a1a1a" />
                         </marker>
+                        <marker id="arrowhead-yes" markerWidth="6" markerHeight="4" refX="5" refY="2" orient="auto">
+                            <polygon points="0 0, 6 2, 0 4" fill="#2ecc71" />
+                        </marker>
+                        <marker id="arrowhead-no" markerWidth="6" markerHeight="4" refX="5" refY="2" orient="auto">
+                            <polygon points="0 0, 6 2, 0 4" fill="#e74c3c" />
+                        </marker>
                     </defs>
 
-                    <!-- Path Logic (Grid: Header 140, C2 80, C3-C9 180, C10 100) -->
-                    <path d="M 205 80 L 240 80" /> <!-- Start to 1 -->
-                    <path d="M 380 80 L 420 80" /> <!-- 1 to 2 -->
-                    <path d="M 560 80 L 637 80" /> <!-- 2 to G1 -->
+                    <!-- Coordenadas calculadas para que terminen justo 2 a 4px antes de cada caja para evitar solapamientos -->
                     
-                    <path d="M 703 80 L 780 80" /> <!-- G1 to 3 -->
-                    <path d="M 920 80 L 940 80 L 940 240 L 960 240" /> <!-- 3 to 4 -->
-                    <path d="M 1100 240 L 1120 240 L 1120 80 L 1140 80" /> <!-- 4 to 5 -->
-                    <path d="M 1280 80 L 1357 80" /> <!-- 5 to G2 -->
-                    <path d="M 1423 80 L 1440 80 L 1440 215" /> <!-- G2 to End -->
+                    <!-- Inicio a Nodo 1 -->
+                    <path d="M 215 80 L 265 80" />
+                    
+                    <!-- Nodo 1 a Nodo 2 -->
+                    <path d="M 410 80 L 465 80" />
+                    
+                    <!-- Nodo 2 a GW1 -->
+                    <path d="M 610 80 L 689 80" />
+                    
+                    <!-- GW1 a Nodo 3 (SÍ) -->
+                    <path class="path-yes" d="M 786 80 L 865 80" />
+                    <text x="820" y="72" class="label-path label-yes">SÍ</text>
+
+                    <!-- GW1 a Excepción (NO) - Hacia abajo -->
+                    <path class="path-no" d="M 740 126 L 740 200" />
+                    <text x="750" y="160" class="label-path label-no">NO</text>
+
+                    <!-- Nodo 3 a Nodo 4 -->
+                    <path d="M 1010 80 L 1065 80" />
+
+                    <!-- Nodo 4 a Nodo 5 -->
+                    <path d="M 1210 80 L 1265 80" />
+
+                    <!-- Nodo 5 a Motor CRM (Baja a carril 2) -->
+                    <path d="M 1410 80 L 1540 80 L 1540 200" />
+
+                    <!-- Motor CRM a GW2 (Sube a carril 1) -->
+                    <path d="M 1610 240 L 1740 240 L 1740 131" />
+
+                    <!-- GW2 a Guardar (SÍ) -->
+                    <path class="path-yes" d="M 1786 80 L 1865 80" />
+                    <text x="1820" y="72" class="label-path label-yes">SÍ</text>
+
+                    <!-- GW2 de regreso al Nodo 5 (NO) - Bucle de corrección por arriba -->
+                    <path class="path-no" d="M 1740 34 L 1740 15 L 1340 15 L 1340 40" />
+                    <text x="1500" y="10" class="label-path label-no">NO (Reevaluar desc.)</text>
+
+                    <!-- Guardar a Fin -->
+                    <path d="M 2010 80 L 2070 80" />
                 </svg>
             </div>
         </div>
-    
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-        <script>
-            function descargarImagen() {
-                const element = document.getElementById('diagrama');
-                if (!element) {
-                    console.error('No se encontró el elemento #diagrama');
-                    alert('Error: No se encontró el diagrama para exportar.');
-                    return;
-                }
+    """
 
-                console.log('Iniciando captura de imagen...');
-                const btn = document.querySelector('.btn-download');
-                btn.innerText = 'Generando...';
-                btn.style.opacity = '0.5';
-
-                html2canvas(element, { 
-                    scale: 3, 
-                    useCORS: true, 
-                    allowTaint: true,
-                    backgroundColor: "#ffffff",
-                    logging: true
-                }).then(canvas => {
-                    try {
-                        const link = document.createElement('a');
-                        link.download = 'diagrama_promociones_asis_profesional.png';
-                        link.href = canvas.toDataURL('image/png', 1.0);
-                        document.body.appendChild(link);
-                        link.click();
-                        document.body.removeChild(link);
-                        console.log('Descarga iniciada exitosamente.');
-                    } catch (err) {
-                        console.error('Error al generar el enlace de descarga:', err);
-                        alert('Hubo un error al procesar la descarga. Revisa la consola del navegador.');
-                    }
-                }).catch(err => {
-                    console.error('Error en html2canvas:', err);
-                    alert('Error técnico al generar la imagen. Verifica si tienes conexión a internet para cargar la librería.');
-                }).finally(() => {
-                    btn.innerText = 'Descargar como Imagen';
-                    btn.style.opacity = '1';
-                });
-            }
-        </script>
-    </body>
-    </html>
+def generar_diagrama_promociones_oficial():
+    html_asis = get_html_header("AS-IS Promociones (Oficial y Corregido)") + get_promociones_asis_content() + get_html_footer("diagrama_promociones_asis_oficial.html")
     
+    filename = "diagrama_promociones_asis_oficial.html"
+    with open(filename, "w", encoding="utf-8") as f:
+        f.write(html_asis)
+    
+    print(f"Diagrama AS-IS generado con éxito con espaciados y flechas corregidas: {filename}")
+    webbrowser.open(f"file://{os.path.abspath(filename)}")
+
+if __name__ == "__main__":
+    generar_diagrama_promociones_oficial()
